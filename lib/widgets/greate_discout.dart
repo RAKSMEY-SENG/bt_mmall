@@ -43,7 +43,7 @@ class _GreateDiscountState extends State<GreateDiscount> {
             ),
           ),
           Container(
-            height: 102.0,
+            height: 105.0,
             child: GridView.builder(
               primary: false,
               itemCount: disproduct.length,
@@ -63,22 +63,38 @@ class _GreateDiscountState extends State<GreateDiscount> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        Container(
+                          width: 50,
+                          margin: EdgeInsets.only(left: 50 , bottom: 5),
+                          decoration: BoxDecoration(
+                              color: Colors.redAccent,
+                              borderRadius: BorderRadius.circular(2)),
+                          child: Text(
+                            disproduct[index].discount+'%',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.openSans(
+                                textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600)),
+                          ),
+                        ),
                         Image.asset(
                           disproduct[index].imageUrl,
-                          width: 50,
+                          width: 45,
                         ),
                         Container(
                           child: Stack(
                             children: <Widget>[
                               Container(
-                                margin: EdgeInsets.only(top: 5, right: 40),
+                                margin: EdgeInsets.only(top: 1, right: 40),
                                 child: Stack(
                                   children: <Widget>[
                                     Text(
                                       "\$"+disproduct[index].price,
                                       style: GoogleFonts.openSans(
                                           textStyle: TextStyle(
-                                              color: Colors.redAccent,
+                                              color: Colors.orange,
                                               fontSize: 10,
                                               fontWeight: FontWeight.w600)),
                                     ),

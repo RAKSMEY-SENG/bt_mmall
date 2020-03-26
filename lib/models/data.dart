@@ -53,10 +53,10 @@ List<NewProduct> newproduct = [
   hot,
 ];
 
-final ProductDiscount ipad_dis = ProductDiscount(id: 1, name: 'iPad pro 2020', imageUrl: 'assets/images/computer.png', price: '30.00');
-final ProductDiscount beat_studio_dis = ProductDiscount(id: 2, name: 'Beat Studio3', imageUrl: 'assets/images/handsets.png', price: '29.00');
-final ProductDiscount apple_dis = ProductDiscount(id: 3, name: 'Apple Watch Megnetic', imageUrl: 'assets/images/ice_watch.png', price: '50.00');
-final ProductDiscount powerbeat_dis = ProductDiscount(id: 4, name: 'Powerbeats Pro', imageUrl: 'assets/images/12.png', price: '25.00');
+final ProductDiscount ipad_dis = ProductDiscount(id: 1, name: 'iPad pro 2020', imageUrl: 'assets/images/computer.png', price: '30.00', discount: '-74');
+final ProductDiscount beat_studio_dis = ProductDiscount(id: 2, name: 'Beat Studio3', imageUrl: 'assets/images/handsets.png', price: '29.00', discount: '-24');
+final ProductDiscount apple_dis = ProductDiscount(id: 3, name: 'Apple Watch Megnetic', imageUrl: 'assets/images/ice_watch.png', price: '50.00', discount: '-15');
+final ProductDiscount powerbeat_dis = ProductDiscount(id: 4, name: 'Powerbeats Pro', imageUrl: 'assets/images/12.png', price: '25.00', discount: '-35');
 
 List<ProductDiscount> disproduct = [
   ipad_dis,

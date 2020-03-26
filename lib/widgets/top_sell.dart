@@ -1,6 +1,9 @@
 import 'package:btmmall/models/data.dart';
+import 'package:btmmall/widgets/category_detail.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 
 class TopSell extends StatefulWidget {
   @override
@@ -58,24 +61,53 @@ class _TopSellState extends State<TopSell> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(right: 10),
-                          child: Stack(
-                            children: <Widget>[
-                              Text(
-                                product[index].name,
-                                style: GoogleFonts.openSans(
-                                    textStyle: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600)),
+                        new Hero(
+                          tag: product[index].name,
+                          child: new Material(
+                            child: new InkWell(
+                              onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(
+                                builder: (BuildContext context)=>new CategoryDetail(),
                               ),
-                            ],
+                              ),
+                              child: new Column(
+                                children: <Widget>[
+                                  Container(
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Container(
+                                          width: 100,
+                                          height: 26,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(1)),
+                                          child: Container(
+                                            width: 100,
+                                            height: 15,
+                                            padding: EdgeInsets.only(top: 5),
+                                            decoration: BoxDecoration(
+                                                color: Color.fromARGB(255,255, 204, 153),
+                                                borderRadius: BorderRadius.only(bottomRight: Radius.circular(25),bottomLeft: Radius.circular(25))),
+                                            child: Text(
+                                              product[index].name,
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 10,
+                                                      fontWeight: FontWeight.w600)),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Image.asset(
+                                    product[index].imageUrl,
+                                    width: 90,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                        Image.asset(
-                          product[index].imageUrl,
-                          width: 100,
                         ),
                       ],
                     ),

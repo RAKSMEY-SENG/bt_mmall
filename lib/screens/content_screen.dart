@@ -76,7 +76,7 @@ class _ContentScreenState extends State<ContentScreen> {
                     onPressed: () {},
                   ),
                   filled: true,
-                  fillColor: Colors.white12,
+                  fillColor: Colors.white30,
                   enabledBorder: InputBorder.none,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),

@@ -1,12 +1,12 @@
 import 'package:btmmall/widgets/just_for_you.dart';
 import 'package:flutter/material.dart';
 
-class CategoryDetail extends StatefulWidget {
+class OrderDetail extends StatefulWidget {
   @override
-  _CategoryDetailState createState() => _CategoryDetailState();
+  _OrderDetailState createState() => _OrderDetailState();
 }
 
-class _CategoryDetailState extends State<CategoryDetail> {
+class _OrderDetailState extends State<OrderDetail> {
   custom() {
     return CustomScrollView(
       slivers: <Widget>[

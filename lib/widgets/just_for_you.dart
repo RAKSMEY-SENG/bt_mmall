@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'orderdetail.dart';
+
 class JustForYou extends StatefulWidget {
   @override
   _JustForYouState createState() => _JustForYouState();
@@ -108,7 +110,9 @@ class _JustForYouState extends State<JustForYou> {
                                       ),
                                       iconSize: 20.0,
                                       color: Colors.white,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        OrderDetail();
+                                      },
                                     ),
                                   ],
                                 ),

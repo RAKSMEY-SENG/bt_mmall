@@ -30,11 +30,13 @@ class ProductDiscount {
   final String name;
   final String imageUrl;
   final String price;
+  final String discount;
 
   ProductDiscount({
     this.id,
     this.name,
     this.imageUrl,
     this.price,
+    this.discount,
   });
 }
