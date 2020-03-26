@@ -58,7 +58,7 @@ class _JustForYouState extends State<JustForYou> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          height: 88,
+                          height: 84,
                           width: MediaQuery.of(context).size.width,
                           color: Colors.black,
                           child: Image.asset(

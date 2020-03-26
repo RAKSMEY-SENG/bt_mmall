@@ -35,14 +35,14 @@ class _PopularCategoryState extends State<PopularCategory> {
           ),
           AnimatedContainer(
             duration: Duration(seconds: 1,),
-            height: 155.0,
+            height: 160.0,
             child: GridView.builder(
               primary: false,
               itemCount: cate.length,
               padding: EdgeInsets.all(8.0),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 5,
-                crossAxisSpacing: 5.0,
+                crossAxisSpacing: 1.0,
                 mainAxisSpacing: 5.0,
               ),
               itemBuilder: (BuildContext context, int index) {
