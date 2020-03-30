@@ -1,4 +1,5 @@
 import 'package:btmmall/models/data.dart';
+import 'package:btmmall/widgets/orderdetail.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -63,47 +64,59 @@ class _GreateDiscountState extends State<GreateDiscount> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Container(
-                          width: 50,
-                          margin: EdgeInsets.only(left: 50 , bottom: 5),
-                          decoration: BoxDecoration(
-                              color: Colors.redAccent,
-                              borderRadius: BorderRadius.circular(2)),
-                          child: Text(
-                            disproduct[index].discount+'%',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w600)),
-                          ),
-                        ),
-                        Image.asset(
-                          disproduct[index].imageUrl,
-                          width: 45,
-                        ),
-                        Container(
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(top: 1, right: 40),
-                                child: Stack(
-                                  children: <Widget>[
-                                    Text(
-                                      "\$"+disproduct[index].price,
-                                      style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
-                                              color: Colors.orange,
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w600)),
-                                    ),
-                                  ],
+                        new Material(
+                          child: new InkWell(
+                            onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(
+                              builder: (BuildContext context)=>new OrderDetail(),
+                            ),
+                            ),
+                            child: new Column(
+                              children: <Widget>[
+                                Container(
+                                  width: 50,
+                                  margin: EdgeInsets.only(left: 50 , bottom: 5),
+                                  decoration: BoxDecoration(
+                                      color: Colors.redAccent,
+                                      borderRadius: BorderRadius.circular(2)),
+                                  child: Text(
+                                    disproduct[index].discount+'%',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.openSans(
+                                        textStyle: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w600)),
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Image.asset(
+                                  disproduct[index].imageUrl,
+                                  width: 45,
+                                ),
+                                Container(
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(top: 1, right: 40),
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Text(
+                                              "\$"+disproduct[index].price,
+                                              style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                      color: Colors.orange,
+                                                      fontSize: 10,
+                                                      fontWeight: FontWeight.w600)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

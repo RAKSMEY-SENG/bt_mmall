@@ -1,4 +1,5 @@
 import 'package:btmmall/models/data.dart';
+import 'package:btmmall/widgets/orderdetail.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -58,31 +59,43 @@ class _NewProductState extends State<NewProduct> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Image.asset(
-                          newproduct[index].imageUrl,
-                          width: 100,
-                        ),
-                        Container(
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(top: 5, right: 60),
-                                child: Stack(
-                                  children: <Widget>[
-                                    Text(
-                                      "\$"+newproduct[index].price,
-                                      style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
-                                              color: Colors.redAccent,
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w600)),
-                                    ),
-                                  ],
+                       new Material(
+                          child: new InkWell(
+                            onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(
+                              builder: (BuildContext context)=>new OrderDetail(),
+                            ),
+                            ),
+                            child: new Column(
+                              children: <Widget>[
+                                Image.asset(
+                                  newproduct[index].imageUrl,
+                                  width: 100,
                                 ),
-                              ),
-                            ],
+                                Container(
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(top: 5, right: 60),
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Text(
+                                              "\$"+newproduct[index].price,
+                                              style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                      color: Colors.redAccent,
+                                                      fontSize: 10,
+                                                      fontWeight: FontWeight.w600)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),

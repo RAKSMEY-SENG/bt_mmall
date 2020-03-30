@@ -1,5 +1,6 @@
 import 'package:btmmall/models/data.dart';
 import 'package:btmmall/widgets/category_detail.dart';
+import 'package:btmmall/widgets/orderdetail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,7 +67,7 @@ class _TopSellState extends State<TopSell> {
                           child: new Material(
                             child: new InkWell(
                               onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(
-                                builder: (BuildContext context)=>new CategoryDetail(),
+                                builder: (BuildContext context)=>new OrderDetail(),
                               ),
                               ),
                               child: new Column(

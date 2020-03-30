@@ -40,3 +40,24 @@ class ProductDiscount {
     this.discount,
   });
 }
+class GetColor {
+  final int id;
+  final String colorname;
+
+  GetColor({
+    this.id,
+    this.colorname
+  });
+
+}
+
+class GetSize {
+  final int id;
+  final String prosize;
+
+  GetSize({
+    this.id,
+    this.prosize
+  });
+
+}

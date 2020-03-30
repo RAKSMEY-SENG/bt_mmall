@@ -33,9 +33,8 @@ class _PopularCategoryState extends State<PopularCategory> {
               ],
             ),
           ),
-          AnimatedContainer(
-            duration: Duration(seconds: 1,),
-            height: 160.0,
+          Container(
+            height: 170.0,
             child: GridView.builder(
               primary: false,
               itemCount: cate.length,

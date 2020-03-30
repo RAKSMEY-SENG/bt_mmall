@@ -1,3 +1,4 @@
+import 'package:btmmall/animations/fadeAnimation.dart';
 import 'package:btmmall/widgets/just_for_you.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
               },
             ),
             IconButton(
-              icon: Icon(Icons.border_all),
+              icon: Icon(Icons.dashboard),
               iconSize: 24.0,
               color: Colors.white,
               onPressed: (){
@@ -51,9 +52,11 @@ class _CategoryDetailState extends State<CategoryDetail> {
             ),
           ),
         ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-                (context, index) => JustForYou()
+        SliverToBoxAdapter(
+          child: SizedBox(
+            child: Center(
+              child:  FadeAnimation(1.2,JustForYou()),
+            ),
           ),
         ),
       ],

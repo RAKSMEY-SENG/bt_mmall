@@ -64,3 +64,27 @@ List<ProductDiscount> disproduct = [
   apple_dis,
   powerbeat_dis,
 ];
+
+final GetColor black = GetColor(id: 1, colorname: 'Black');
+final GetColor white = GetColor(id: 2, colorname: 'White');
+final GetColor pink = GetColor(id: 3, colorname: 'Pink');
+final GetColor yellow = GetColor(id: 4, colorname: 'Yellow');
+
+List<GetColor> getcolor = [
+  black,
+  white,
+  pink,
+  yellow,
+];
+
+final GetSize s = GetSize(id: 1, prosize: 'S');
+final GetSize m = GetSize(id: 2, prosize: 'M');
+final GetSize l = GetSize(id: 3, prosize: 'L');
+final GetSize xl = GetSize(id: 4, prosize: 'XL');
+
+List<GetSize> getsize = [
+  m,
+  l,
+  s,
+  xl,
+];

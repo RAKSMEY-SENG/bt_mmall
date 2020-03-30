@@ -1,9 +1,9 @@
 import 'package:btmmall/models/data.dart';
+import 'package:btmmall/widgets/orderdetail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'orderdetail.dart';
+import 'package:page_transition/page_transition.dart';
 
 class JustForYou extends StatefulWidget {
   @override
@@ -59,67 +59,80 @@ class _JustForYouState extends State<JustForYou> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Container(
-                          height: 84,
-                          width: MediaQuery.of(context).size.width,
-                          color: Colors.black,
-                          child: Image.asset(
-                              newproduct[index].imageUrl,
-                              width: MediaQuery.of(context).size.width,
-                          )
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.only(top: 5,left: 7, right: 7),
-                          child: Text(
-                            newproduct[index].name,
-                            textAlign: TextAlign.left,
-                            style: GoogleFonts.openSans(
-                                textStyle: TextStyle(
+                        new Material(
+                          child: new InkWell(
+                            onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(
+                              builder: (BuildContext context)=>new OrderDetail(),
+                            ),
+                            ),
+                            child: new Column(
+                              children: <Widget>[
+                                Container(
+                                    height: 84,
+                                    width: MediaQuery.of(context).size.width,
                                     color: Colors.black,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w600)),
+                                    child: Image.asset(
+                                      newproduct[index].imageUrl,
+                                      width: MediaQuery.of(context).size.width,
+                                    )
+                                ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: EdgeInsets.only(top: 5,left: 7, right: 7),
+                                  child: Text(
+                                    newproduct[index].name,
+                                    textAlign: TextAlign.left,
+                                    style: GoogleFonts.openSans(
+                                        textStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w600)),
+                                  ),
+                                ),
+                                Container(
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(top: 15, left: 10),
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Text(
+                                              "\$"+newproduct[index].price,
+                                              style: GoogleFonts.openSans(
+                                                  textStyle: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 10,
+                                                      fontWeight: FontWeight.w600)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 100),
+                                        child: IconButton(
+                                          icon: Image.asset(
+                                            "assets/images/ic_cart.png",
+                                            width: 20,
+                                          ),
+                                          iconSize: 20.0,
+                                          color: Colors.white,
+                                          onPressed: () {
+                                            Navigator.push(context, PageTransition(
+                                              type: PageTransitionType.fade,
+                                              child: OrderDetail(),
+                                            )).then((value) {
+
+                                            });
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                        Container(
-                          child: Stack(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(top: 15, left: 10),
-                                child: Stack(
-                                  children: <Widget>[
-                                    Text(
-                                      "\$"+newproduct[index].price,
-                                      style: GoogleFonts.openSans(
-                                          textStyle: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.w600)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 100),
-                                child: Stack(
-                                  children: <Widget>[
-                                    IconButton(
-                                      icon: Image.asset(
-                                        "assets/images/ic_cart.png",
-                                        width: 20,
-                                      ),
-                                      iconSize: 20.0,
-                                      color: Colors.white,
-                                      onPressed: () {
-                                        OrderDetail();
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        )
                       ],
                     ),
                   ),
