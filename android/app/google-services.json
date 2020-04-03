@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "826758981148",
+    "firebase_url": "https://btmmall.firebaseio.com",
+    "project_id": "btmmall",
+    "storage_bucket": "btmmall.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826758981148:android:ff90c59b19f7fc6b8be1d9",
+        "android_client_info": {
+          "package_name": "com.example.btmmall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826758981148-shaqmokpbh7l674vqde7n7qto62pi9na.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTCAAAzsRjWmprC3PAWOHIWjpj4WH7KrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826758981148-shaqmokpbh7l674vqde7n7qto62pi9na.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

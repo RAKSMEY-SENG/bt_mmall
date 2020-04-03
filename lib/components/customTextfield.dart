@@ -5,12 +5,14 @@ class CustomTextField extends StatelessWidget {
   final String label;
   final Widget icon;
   final bool isPassword;
+  final TextEditingController controller;
 
-  const CustomTextField({Key key, this.label, this.icon, this.isPassword = false}) : super(key: key);
+  const CustomTextField({Key key, this.label, this.icon, this.isPassword = false, this.controller}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
         style: TextStyle(color: Color(0xFFF234253),fontWeight: FontWeight.bold),
         obscureText: isPassword,
         decoration: InputDecoration(
