@@ -8,9 +8,9 @@ class ButtonLoginAnimation extends StatefulWidget {
   final Color borderColor;
   final Color fontColor;
   final Function onTap;
-  final Widget child;
+//  final Widget child;
 
-  const ButtonLoginAnimation({Key key, this.label, this.background, this.borderColor, this.fontColor, this.onTap, this.child}) : super(key: key);
+  const ButtonLoginAnimation({Key key, this.label, this.background, this.borderColor, this.fontColor, this.onTap,}) : super(key: key);
 
   @override
   _ButtonLoginAnimationState createState() => _ButtonLoginAnimationState();
@@ -49,16 +49,16 @@ with TickerProviderStateMixin {
 
     _scaleController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 900)
+      duration: Duration(milliseconds: 500)
     );
 
     _scaleAnimation = Tween<double>(begin: 1.0, end: 32)
     .animate(_scaleController)..addStatusListener((status){
       if(status == AnimationStatus.completed){
-        Navigator.pushReplacement(context, PageTransition(
-          type: PageTransitionType.fade,
-          child: widget.child
-        ));
+//        Navigator.pushReplacement(context, PageTransition(
+//          type: PageTransitionType.fade,
+//          child: widget.child
+//        ));
       }
     });
 
@@ -109,7 +109,6 @@ with TickerProviderStateMixin {
                         color: widget.borderColor,
                         shape: BoxShape.circle,
                       ),
-                      child: !_isIconHide ? Icon(Icons.arrow_forward, color: widget.fontColor,size: 32) : Container(),
                     )),
                   ),
                 ),

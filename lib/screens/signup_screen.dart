@@ -2,23 +2,34 @@ import 'dart:convert';
 
 import 'package:btmmall/components/buttonLoginAnimation.dart';
 import 'package:btmmall/components/customTextfield.dart';
+import 'package:btmmall/models/user_insert.dart';
 import 'package:btmmall/screens/content_screen.dart';
 import 'package:btmmall/screens/home_screen.dart';
+import 'package:btmmall/services/api_service.dart';
+import 'package:btmmall/services/service.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
+import 'package:btmmall/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class SignUpScreen extends StatefulWidget {
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  Service service;
+
+  bool _isLoading = false;
 
   TextEditingController etEmail = new TextEditingController();
   TextEditingController etPassword = new TextEditingController();
-  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,17 +118,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           icon: Icon(Icons.https, size: 27,color: Color(0xFFF032f41),),
                         ),
                         SizedBox(height: 40),
-                        ButtonLoginAnimation(
-                          label: "Login",
-                          fontColor: Colors.white,
-                          background: Color(0xFFF1f94aa),
-                          borderColor: Color(0xFFF1a7a8c),
-//                          child: ContentScreen(),
-                          onTap: etEmail.text.toString() == "" || etPassword.text.toString() == "" ? null : () {
-                            setState(() {
-                              _isLoading = true;
+                        RaisedButton(
+                          child: Text('Login', style: TextStyle(color: Colors.white)),
+                          onPressed: () async {
+//                            await Provider.of<ApiService>(context, listen : false)
+//                                .putUser(etEmail.text.toString(),etPassword.text.toString());
+
+//                          _signIn(etEmail.text.toString(), etPassword.text.toString());
+
+                            final user = UserInsert(
+                                username: etEmail.text.toString(),
+                                password: etPassword.text.toString()
+                            );
+                            service = new Service();
+                            final result = await service.putuser(user);
+
+                            final title = 'Done';
+                            final text = result.error ? (result.errorMessage ?? 'An error occurred') : 'Your note was created';
+
+                            showDialog(
+                                context: context,
+                                builder: (_) => AlertDialog(
+                                  title: Text(title),
+                                  content: Text(text),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text('Ok'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    )
+                                  ],
+                                )
+                            )
+                                .then((data) {
+                              if (result.data) {
+                                setState(() {
+                                  print("Respones : "+ result.data.toString());
+                                });
+                                Navigator.of(context).pop();
+                              }
                             });
-                            _signIn(etEmail.text.toString(), etPassword.text.toString());
                           },
                         )
                       ],
@@ -134,14 +175,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
   _signIn(String email, String password) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     Map data = {
-      'email': email,
-      'password': password
+      'username': email,
+      'psw': password
     };
     var jsonResponse = null;
     var response = await http.post("https://markarianmall.com/web-service/ws-login.php", body: data);
     print(data);
-    if(response.statusCode == 200) {
-      jsonResponse = json.decode(response.body);
+    if(response.statusCode == 201) {
+      jsonResponse = json.encode(response.body);
       if(jsonResponse != null) {
         setState(() {
           _isLoading = false;
