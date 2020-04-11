@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "90556455085",
+    "firebase_url": "https://gvtracking-c77c6.firebaseio.com",
+    "project_id": "gvtracking-c77c6",
+    "storage_bucket": "gvtracking-c77c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:90556455085:android:2915069a7269a4b1760e24",
+        "android_client_info": {
+          "package_name": "com.example.gvtracking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "90556455085-m3icej7k7quo6rm3if2fcvc09g9n803v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvJbi9-ia8b4YC6ECgmDnqHwG1Tyco9VQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "90556455085-m3icej7k7quo6rm3if2fcvc09g9n803v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
