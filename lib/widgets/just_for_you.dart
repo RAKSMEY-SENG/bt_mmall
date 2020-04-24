@@ -1,9 +1,14 @@
+import 'package:btmmall/components/loginButton.dart';
 import 'package:btmmall/models/data.dart';
+import 'package:btmmall/models/product_model.dart';
+import 'package:btmmall/screens/login_screen.dart';
+import 'package:btmmall/services/api_service.dart';
 import 'package:btmmall/widgets/orderdetail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class JustForYou extends StatefulWidget {
   @override
@@ -11,6 +16,8 @@ class JustForYou extends StatefulWidget {
 }
 
 class _JustForYouState extends State<JustForYou> {
+  String username,password;
+  SharedPreferences sharedPreferences;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,130 +25,483 @@ class _JustForYouState extends State<JustForYou> {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20.0,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Just For You',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.0,
-                  ),
-                ),
-              ],
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Just For You',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.0,
+              ),
             ),
           ),
           Container(
-            height: 540.0,
-            child: GridView.builder(
-              primary: false,
-              itemCount: newproduct.length,
-              padding: EdgeInsets.all(10.0),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 1.0,
-                mainAxisSpacing: 1.0,
-              ),
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: EdgeInsets.all(2.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey[50],
-                        borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new Material(
-                          child: new InkWell(
-                            onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(
-                              builder: (BuildContext context)=>new OrderDetail(),
-                            ),
-                            ),
-                            child: new Column(
-                              children: <Widget>[
-                                Container(
-                                    height: 84,
-                                    width: MediaQuery.of(context).size.width,
-                                    color: Colors.black,
-                                    child: Image.asset(
-                                      newproduct[index].imageUrl,
-                                      width: MediaQuery.of(context).size.width,
-                                    )
-                                ),
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  margin: EdgeInsets.only(top: 5,left: 7, right: 7),
-                                  child: Text(
-                                    newproduct[index].name,
-                                    textAlign: TextAlign.left,
-                                    style: GoogleFonts.openSans(
-                                        textStyle: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w600)),
-                                  ),
-                                ),
-                                Container(
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(top: 15, left: 10),
-                                        child: Stack(
-                                          children: <Widget>[
-                                            Text(
-                                              "\$"+newproduct[index].price,
-                                              style: GoogleFonts.openSans(
-                                                  textStyle: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 10,
-                                                      fontWeight: FontWeight.w600)),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 100),
-                                        child: IconButton(
-                                          icon: Image.asset(
-                                            "assets/images/ic_cart.png",
-                                            width: 20,
-                                          ),
-                                          iconSize: 20.0,
-                                          color: Colors.white,
-                                          onPressed: () {
-                                            Navigator.push(context, PageTransition(
-                                              type: PageTransitionType.fade,
-                                              child: OrderDetail(),
-                                            )).then((value) {
-
-                                            });
-                                          },
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+            height: MediaQuery.of(context).size.height,
+            child: _listFutureTasks(context),
           )
         ],
       ),
+    );
+  }
+  FutureBuilder _listFutureTasks(BuildContext context) {
+    return FutureBuilder<List<ProductModel>>(
+      future: Provider.of<ApiService>(context, listen: false).getProduct(),
+      builder: (BuildContext context, AsyncSnapshot<List<ProductModel>> snapshot) {
+        if(snapshot.connectionState == ConnectionState.done) {
+          if(snapshot.hasError) {
+            return Container(
+              child: Center(
+                child: Text("No Result"),
+              ),
+            );
+          }
+          final tasks = snapshot.data;
+          return _listTasks(context: context, tasks: tasks);
+
+        } else {
+          return Container(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  GridView _listTasks({BuildContext context, List<ProductModel> tasks}) {
+    return GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: tasks.length,
+      padding: EdgeInsets.all(10.0),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 1.0,
+        mainAxisSpacing: 1.0,
+      ),
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: EdgeInsets.all(2.0),
+          child: Card(
+            child: new InkWell(
+              onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(
+                builder: (BuildContext context)=>new OrderDetail(),
+                settings: RouteSettings(
+                arguments: tasks[index]),
+              ),
+              ),
+              child: new Column(
+                children: <Widget>[
+                  Container(
+                      height: 80,
+                      width: 60,
+                      child: Image.network(
+                        tasks[index].image,
+                        fit: BoxFit.cover,
+                      )
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 7),
+                    child: Container(
+                      height: 27,
+                      child: Text(
+                        tasks[index].name,
+                        textAlign: TextAlign.left,
+                        style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600)),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10,right: 10),
+                    child: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            child: Stack(
+                              children: <Widget>[
+                                Text(
+                                  "\$"+"35.00",
+                                  style: GoogleFonts.openSans(
+                                      textStyle: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w600)),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: IconButton(
+                              icon: Image.asset(
+                                "assets/images/ic_cart.png",
+                                width: 20,
+                              ),
+                              iconSize: 20.0,
+                              color: Colors.white,
+                              onPressed: () {
+                                _AddToCartBottomSheet(context);
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
+        );
+      },
+    );
+  }
+  void _AddToCartBottomSheet(context){
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext bc){
+          return Scaffold(
+            backgroundColor: Colors.transparent,
+            body: SingleChildScrollView(
+              child: new Container(
+                height: MediaQuery.of(context).size.height,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20)),
+                  color: Colors.white,
+                ),
+                child: new Wrap(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Container(
+                          alignment: Alignment.center,
+                          child: Icon(Icons.linear_scale,color: Colors.grey,)
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Container(
+                        child: Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Container(
+                                  width: 150,
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.all(5.0),
+                                        child: Container(
+                                            alignment: Alignment.centerLeft,
+                                            child: Text("Color")
+                                        ),
+                                      ),
+                                      TextField(
+                                        readOnly: true,
+                                        style: TextStyle(color: Colors.white),
+                                        textAlign: TextAlign.left,
+                                        keyboardType: TextInputType.text,
+                                        controller: null,
+                                        decoration: InputDecoration(
+                                          hintText: "Please Select",
+                                          hintStyle: GoogleFonts.openSans(
+                                              textStyle: TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.black,
+                                              )
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(5),
+                                          ),
+                                          contentPadding: EdgeInsets.all(10),
+                                          suffixIcon: IconButton(
+                                            icon: Icon(Icons.keyboard_arrow_up,size: 25,),
+                                            iconSize: 14,
+                                            color: Colors.black,
+                                            onPressed: () {},
+                                          ),
+                                          filled: true,
+                                          fillColor: Colors.grey[200],
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                                            borderSide: BorderSide(
+                                                width: 0,
+                                                color: Colors.deepOrange
+                                            ),
+                                          ),
+                                        ),
+                                        onTap: (){
+                                          _ColorModalBottomSheet(context);
+                                        },
+                                      ),
+                                    ],
+                                  )
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Container(
+                                  width: 150,
+                                  child: Column(
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.all(5.0),
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text("Size"),
+                                        ),
+                                      ),
+                                      TextField(
+                                        readOnly: true,
+                                        style: TextStyle(color: Colors.white),
+                                        textAlign: TextAlign.left,
+                                        keyboardType: TextInputType.text,
+                                        controller: null,
+                                        decoration: InputDecoration(
+                                          hintText: "Please Select",
+                                          hintStyle: GoogleFonts.openSans(
+                                              textStyle: TextStyle(
+                                                fontSize: 10,
+                                                color: Colors.black,
+                                              )
+                                          ),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(5),
+                                          ),
+                                          contentPadding: EdgeInsets.all(10),
+                                          suffixIcon: IconButton(
+                                            icon: Icon(Icons.keyboard_arrow_up,size: 25,),
+                                            iconSize: 14,
+                                            color: Colors.black,
+                                            onPressed: () {},
+                                          ),
+                                          filled: true,
+                                          fillColor: Colors.grey[200],
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                                            borderSide: BorderSide(
+                                                width: 0,
+                                                color: Colors.deepOrange
+                                            ),
+                                          ),
+                                        ),
+                                        onTap: (){
+                                          _SizeModalBottomSheet(context);
+                                        },
+                                      ),
+                                    ],
+                                  )
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 0.2,child: Padding(
+                      padding: EdgeInsets.only(left: 10,right: 10),
+                      child: Container(color: Colors.grey,),
+                    ),),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8,left: 20),
+                      child: Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text("Quanity")
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 8, bottom: 20,left: 20),
+                      child: Container(
+                        width: 150,
+                        child: TextField(
+                          readOnly: true,
+                          style: TextStyle(color: Colors.white),
+                          textAlign: TextAlign.left,
+                          keyboardType: TextInputType.text,
+                          controller: null,
+                          decoration: InputDecoration(
+                            hintText: "Please Select",
+                            hintStyle: GoogleFonts.openSans(
+                                textStyle: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.black,
+                                )
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            contentPadding: EdgeInsets.all(10),
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.keyboard_arrow_up,size: 25,),
+                              iconSize: 14,
+                              color: Colors.black,
+                              onPressed: () {},
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                              borderSide: BorderSide(
+                                  width: 0,
+                                  color: Colors.deepOrange
+                              ),
+                            ),
+                          ),
+                          onTap: (){
+                          },
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 0.1,child: Padding(
+                      padding: EdgeInsets.only(left: 10,right: 10),
+                      child: Container(color: Colors.grey,),
+                    ),),
+                  ],
+                ),
+              ),
+            ),
+            bottomNavigationBar: Container(
+              height: 45,
+              color: Colors.orangeAccent,
+              child: Container(
+                  child: LoginButton(
+                    label: "Add To Cart",
+                    background: Colors.transparent,
+                    borderColor: Colors.transparent,
+                    fontColor: Colors.white,
+                    onTap: () async{
+                      sharedPreferences = await SharedPreferences.getInstance();
+                      if(sharedPreferences.getString("token") == null) {
+//                        Navigator.pop(context,true);
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new LoginScreen()));
+                      }else{
+                        username = sharedPreferences.getString("username");
+                        password = sharedPreferences.getString("password");
+                        print("TOKEN : "+ username+password);
+                      }
+                    },
+                  )
+              ),
+            ),
+          );
+        }
+    );
+  }
+  void _ColorModalBottomSheet(context){
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext bc){
+          return Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: Colors.white,
+              ),
+              child: new Wrap(
+                children: <Widget>[
+
+                  Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text("Choose Color", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ),),
+                    ),
+                  ),
+                  SizedBox(height: 0.5,child: Container(color: Colors.grey,),),
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: ListView.builder(
+                        itemCount: getcolor.length,
+                        itemBuilder: (BuildContext context, int index){
+                          return Material(
+                            color: Colors.white,
+                            child: InkWell(
+                              onTap: (){},
+                              child: new Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 30,top: 10,bottom: 10),
+                                    child: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(getcolor[index].colorname, style: TextStyle(fontSize: 18, color: Colors.black),),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+    );
+  }
+  void _SizeModalBottomSheet(context){
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (BuildContext bc){
+          return Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: Colors.white,
+              ),
+              child: new Wrap(
+                children: <Widget>[
+
+                  Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Text("Choose Size", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ),),
+                    ),
+                  ),
+                  SizedBox(height: 0.5,child: Container(color: Colors.grey,),),
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: ListView.builder(
+                        itemCount: getsize.length,
+                        itemBuilder: (BuildContext context, int index){
+                          return Material(
+                            color: Colors.white,
+                            child: InkWell(
+                              onTap: (){},
+                              child: new Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 30,top: 10,bottom: 10),
+                                    child: Container(
+                                      alignment: Alignment.centerLeft,
+                                      child: Text(getsize[index].prosize, style: TextStyle(fontSize: 18, color: Colors.black),),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
     );
   }
 }

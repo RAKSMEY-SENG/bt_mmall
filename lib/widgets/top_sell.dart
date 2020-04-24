@@ -1,9 +1,14 @@
 import 'package:btmmall/models/data.dart';
+import 'package:btmmall/models/product_model.dart';
+import 'package:btmmall/services/api_service.dart';
 import 'package:btmmall/widgets/category_detail.dart';
 import 'package:btmmall/widgets/orderdetail.dart';
+import 'package:btmmall/widgets/top_sell_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:shape_of_view/shape_of_view.dart';
 
 
 class TopSell extends StatefulWidget {
@@ -48,77 +53,92 @@ class _TopSellState extends State<TopSell> {
           ),
           Container(
             height: 150.0,
-            child: ListView.builder(
-              itemCount: product.length,
-              padding: EdgeInsets.all(10.0),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index){
-                return Padding(
-                  padding: EdgeInsets.all(3.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey[50],
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        new Hero(
-                          tag: product[index].name,
-                          child: new Material(
-                            child: new InkWell(
-                              onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(
-                                builder: (BuildContext context)=>new OrderDetail(),
-                              ),
-                              ),
-                              child: new Column(
-                                children: <Widget>[
-                                  Container(
-                                    child: Stack(
-                                      children: <Widget>[
-                                        Container(
-                                          width: 100,
-                                          height: 26,
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(1)),
-                                          child: Container(
-                                            width: 100,
-                                            height: 15,
-                                            padding: EdgeInsets.only(top: 5),
-                                            decoration: BoxDecoration(
-                                                color: Color.fromARGB(255,255, 204, 153),
-                                                borderRadius: BorderRadius.only(bottomRight: Radius.circular(25),bottomLeft: Radius.circular(25))),
-                                            child: Text(
-                                              product[index].name,
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.openSans(
-                                                  textStyle: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 10,
-                                                      fontWeight: FontWeight.w600)),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Image.asset(
-                                    product[index].imageUrl,
-                                    width: 90,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+            child: _listFutureTasks(context),
           )
         ],
       ),
+    );
+  }
+  FutureBuilder _listFutureTasks(BuildContext context) {
+    return FutureBuilder<List<ProductModel>>(
+      future: Provider.of<ApiService>(context, listen: false).getProduct(),
+      builder: (BuildContext context, AsyncSnapshot<List<ProductModel>> snapshot) {
+        if(snapshot.connectionState == ConnectionState.done) {
+          if(snapshot.hasError) {
+            return Container(
+              child: Center(
+                child: Text("No Result"),
+              ),
+            );
+          }
+          final tasks = snapshot.data;
+          return _listTasks(context: context, tasks: tasks);
+
+        } else {
+          return Container(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  ListView _listTasks({BuildContext context, List<ProductModel> tasks}) {
+    return ListView.builder(
+      itemCount: tasks.length,
+      padding: EdgeInsets.all(10.0),
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (BuildContext context, int index){
+        return Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: ShapeOfView(
+              shape: RoundRectShape(
+                borderRadius: BorderRadius.circular(5),
+                borderColor: Colors.white, //optional
+                borderWidth: 2, //optional
+              ),
+              child: new InkWell(
+                onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context)=>new TopSellDetail(),
+                  settings: RouteSettings(
+                      arguments: tasks[index]),
+                ),
+                ),
+                child: new Stack(
+                  children: <Widget>[
+                    Image.network(
+                      tasks[index].image,
+                      fit: BoxFit.cover,
+                    ),
+                    ShapeOfView(
+                      shape: ArcShape(
+                          direction: ArcDirection.Outside,
+                          height: 10,
+                          position: ArcPosition.Bottom
+                      ),
+                      child: Container(
+                        width: 100,
+                        height: 25,
+                        color: Color.fromARGB(255,255, 204, 153),
+                        child: Text(
+                          tasks[index].name,
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.openSans(
+                              textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 7,
+                                  fontWeight: FontWeight.w600)),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+          ),
+        );
+      },
     );
   }
 }

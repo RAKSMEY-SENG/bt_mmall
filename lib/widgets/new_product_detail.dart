@@ -3,7 +3,6 @@ import 'package:btmmall/components/loginButton.dart';
 import 'package:btmmall/models/data.dart';
 import 'package:btmmall/models/product_model.dart';
 import 'package:btmmall/screens/login_screen.dart';
-import 'package:btmmall/widgets/checkout_screen.dart';
 import 'package:btmmall/widgets/overview_screen.dart';
 import 'package:btmmall/widgets/review_screen.dart';
 import 'package:btmmall/widgets/specification_screen.dart';
@@ -12,12 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class OrderDetail extends StatefulWidget {
+import 'checkout_screen.dart';
+
+class NewProductDetail extends StatefulWidget {
   @override
-  _OrderDetailState createState() => _OrderDetailState();
+  _NewProductDetailState createState() => _NewProductDetailState();
 }
 
-class _OrderDetailState extends State<OrderDetail> {
+class _NewProductDetailState extends State<NewProductDetail> {
   String username,password;
   SharedPreferences sharedPreferences;
   int _selectIndex = 0;

@@ -34,9 +34,9 @@ class _PopularCategoryState extends State<PopularCategory> {
             ),
           ),
           Container(
-            height: 170.0,
+            height: 165.0,
             child: GridView.builder(
-              primary: false,
+              physics: NeverScrollableScrollPhysics(),
               itemCount: cate.length,
               padding: EdgeInsets.all(8.0),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -58,7 +58,7 @@ class _PopularCategoryState extends State<PopularCategory> {
                                 ),
                                 child: new Column(
                                   children: <Widget>[
-                                    new Image.asset(cate[index].imageUrl),
+                                    new Image.asset(cate[index].imageUrl,fit: BoxFit.cover,),
                                     new Text(
                                       cate[index].name,
                                       style: TextStyle(

@@ -1,13 +1,12 @@
 import 'dart:developer';
 
 import 'package:btmmall/screens/content_screen.dart';
-import 'package:btmmall/screens/home_screen.dart';
 import 'package:btmmall/services/api_service.dart';
+import 'package:btmmall/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:logging/logging.dart';
-import 'package:btmmall/services/service.dart';
 
 void setupLocator() {
   GetIt.I.registerLazySingleton(()=> Service());
@@ -30,10 +29,11 @@ class MyApp extends StatelessWidget {
     return Provider<ApiService>(
       create: (context) => ApiService.create(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primaryColor: Colors.blueAccent
         ),
-        home: ContentScreen(),
+        home: SplashScreen(),
       ),
     );
   }

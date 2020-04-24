@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:btmmall/animations/fadeAnimation.dart';
 import 'package:btmmall/widgets/greate_discout.dart';
@@ -9,6 +10,7 @@ import 'package:btmmall/widgets/top_sell.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -18,6 +20,32 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+
+  Future<void> _handleRefresh() {
+    final Completer<void> completer = Completer<void>();
+    Timer(const Duration(milliseconds: 500), () {
+      completer.complete();
+    });
+    return completer.future.then<void>((_) {
+      _scaffoldKey.currentState?.showSnackBar(SnackBar(
+          content: const Text('Refresh complete'),
+          action: SnackBarAction(
+              label: 'RETRY',
+              onPressed: () {
+                _refreshIndicatorKey.currentState.show();
+              })));
+    });
+  }
+  static final List<Widget> _items = <Widget>[
+    FadeAnimation(1.2,  SlideShow()),
+    FadeAnimation(1.4,PopularCategory()),
+    FadeAnimation(1.6,TopSell()),
+    FadeAnimation(1.8,GreateDiscount()),
+    FadeAnimation(2,NewProduct()),
+    FadeAnimation(2.2,JustForYou()),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,114 +65,80 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         title: Container(
-          child: Padding(
-            padding: EdgeInsets.only(top: 13.0),
-            child: Container(
-              height: 40.0,
-              child: TextField(
-                style: TextStyle(color: Colors.white),
-                textAlign: TextAlign.left,
-                keyboardType: TextInputType.text,
-                controller: null,
-                decoration: InputDecoration(
-                  hintText: "Search",
-                  hintStyle: GoogleFonts.openSans(
-                      textStyle: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                      )
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  contentPadding: EdgeInsets.all(16),
-                  prefixIcon: IconButton(
-                    icon: Image.asset(
-                      "assets/images/search.png",
-                      width: 20,
-                    ),
-                    iconSize: 20,
+          height: 45.0,
+          child: TextField(
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.left,
+            keyboardType: TextInputType.text,
+            controller: null,
+            decoration: InputDecoration(
+              hintText: "Search",
+              hintStyle: GoogleFonts.openSans(
+                  textStyle: TextStyle(
+                    fontSize: 16,
                     color: Colors.white,
-                    onPressed: () {},
-                  ),
-                  filled: true,
-                  fillColor: Colors.white30,
-                  enabledBorder: InputBorder.none,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    borderSide: BorderSide(
-                        width: 0,
-                        color: Colors.deepOrange
-                    ),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Image.asset(
-                      "assets/images/camera.png",
-                      width: 20,
-                    ),
-                    iconSize: 20.0,
-                    color: Colors.white,
-                    onPressed: () {},
-                  ),
+                  )
+              ),
+              contentPadding: EdgeInsets.all(16),
+              prefixIcon: IconButton(
+                icon: Image.asset(
+                  "assets/images/search.png",
+                  width: 20,
                 ),
+                iconSize: 20,
+                color: Colors.white,
+                onPressed: () {},
+              ),
+              filled: true,
+              fillColor: Colors.white30,
+              enabledBorder: InputBorder.none,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(0)),
+                borderSide: BorderSide(
+                    width: 0,
+                    color: Colors.deepOrange
+                ),
+              ),
+              suffixIcon: IconButton(
+                icon: Image.asset(
+                  "assets/images/camera.png",
+                  width: 20,
+                ),
+                iconSize: 20.0,
+                color: Colors.white,
+                onPressed: () {},
               ),
             ),
           ),
         ),
         elevation: 0.0,
         actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(top: 15.0),
-            child: IconButton(
-              icon: Image.asset(
-                "assets/images/language.png",
-                width: 24,
-              ),
-              iconSize: 24.0,
-              color: Colors.white,
-              onPressed: (){
-
-              },
+          IconButton(
+            icon: Image.asset(
+              "assets/images/language.png",
+              width: 24,
             ),
+            iconSize: 24.0,
+            color: Colors.white,
+            onPressed: (){
+            },
           ),
         ],
       ),
-      body: Container(
-        child: Container(
-          child: Stack(
-          children: <Widget>[
-            SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    height: 170,
-                    child: FadeAnimation(1.2,  SlideShow()),
-                  ),
-                  Container(
-                    height: 210,
-                    child: FadeAnimation(1.4,PopularCategory()),
-                  ),
-                  Container(
-                    height: 200,
-                    child:  FadeAnimation(1.6,TopSell()),
-                  ),
-                  Container(
-                    height: 270.0,
-                    child: FadeAnimation(1.8,GreateDiscount()),
-                  ),
-                  Container(
-                    height: 200,
-                    child: FadeAnimation(2,NewProduct()),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height,
-                    child: FadeAnimation(2.2,JustForYou()),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+      body: LiquidPullToRefresh(
+        color:  Colors.deepOrange,
+        key: _refreshIndicatorKey,
+        onRefresh: _handleRefresh,
+        child: ListView.builder(
+          itemCount: _items.length,
+          itemBuilder: (BuildContext context, int index) {
+            final  item = _items[index];
+            return Column(
+              children: <Widget>[
+                item,
+              ],
+            );
+          },
         ),
       ),
     );

@@ -1,7 +1,14 @@
 import 'package:btmmall/models/data.dart';
+import 'package:btmmall/models/product_model.dart';
+import 'package:btmmall/services/api_service.dart';
+import 'package:btmmall/widgets/new_product_detail.dart';
 import 'package:btmmall/widgets/orderdetail.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:shape_of_view/shape_of_view.dart';
 
 class NewProduct extends StatefulWidget {
   @override
@@ -45,66 +52,91 @@ class _NewProductState extends State<NewProduct> {
           ),
           Container(
             height: 150.0,
-            child: ListView.builder(
-              itemCount: newproduct.length,
-              padding: EdgeInsets.all(10.0),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index){
-                return Padding(
-                  padding: EdgeInsets.all(3.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey[50],
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                       new Material(
-                          child: new InkWell(
-                            onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(
-                              builder: (BuildContext context)=>new OrderDetail(),
-                            ),
-                            ),
-                            child: new Column(
-                              children: <Widget>[
-                                Image.asset(
-                                  newproduct[index].imageUrl,
-                                  width: 100,
-                                ),
-                                Container(
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(top: 5, right: 60),
-                                        child: Stack(
-                                          children: <Widget>[
-                                            Text(
-                                              "\$"+newproduct[index].price,
-                                              style: GoogleFonts.openSans(
-                                                  textStyle: TextStyle(
-                                                      color: Colors.redAccent,
-                                                      fontSize: 10,
-                                                      fontWeight: FontWeight.w600)),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+            child: _listFutureTasks(context),
           )
         ],
       ),
+    );
+  }
+  FutureBuilder _listFutureTasks(BuildContext context) {
+    return FutureBuilder<List<ProductModel>>(
+      future: Provider.of<ApiService>(context, listen: false).getProduct(),
+      builder: (BuildContext context, AsyncSnapshot<List<ProductModel>> snapshot) {
+        if(snapshot.connectionState == ConnectionState.done) {
+          if(snapshot.hasError) {
+            return Container(
+              child: Center(
+                child: Text("No Result"),
+              ),
+            );
+          }
+          final tasks = snapshot.data;
+          return _listTasks(context: context, tasks: tasks);
+
+        } else {
+          return Container(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  ListView _listTasks({BuildContext context, List<ProductModel> tasks}) {
+    return ListView.builder(
+      itemCount: tasks.length,
+      padding: EdgeInsets.all(10.0),
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (BuildContext context, int index){
+        return Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: ShapeOfView(
+              shape: RoundRectShape(
+              borderRadius: BorderRadius.circular(5),
+          borderColor: Colors.white, //optional
+          borderWidth: 2, //optional
+          ),
+          child: new InkWell(
+            onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context)=>new NewProductDetail(),
+              settings: RouteSettings(
+                  arguments: tasks[index]),
+            ),
+            ),
+            child: new Stack(
+              children: <Widget>[
+                Image.network(
+                  tasks[index].image,
+                  fit: BoxFit.cover,
+                ),
+                ShapeOfView(
+                    elevation: 4,
+                    height: 20,
+                    shape: DiagonalShape(
+                        position: DiagonalPosition.Bottom,
+                        direction: DiagonalDirection.Left,
+                        angle: DiagonalAngle.deg(angle: 15)
+                    ),
+                    child:  Container(
+                      color: Colors.lime,
+                      child: Text(
+                        "\$"+"50.00",
+                        style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600)),
+                      ),
+                    ),
+                ),
+              ],
+            ),
+          )
+          ),
+        );
+      },
     );
   }
 }

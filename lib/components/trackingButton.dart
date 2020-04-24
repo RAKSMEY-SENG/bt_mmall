@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 
-class ButtonLoginAnimation extends StatelessWidget {
+class TrackingButton extends StatelessWidget {
   final String label;
   final Color background;
   final Color borderColor;
   final Color fontColor;
   final Function onTap;
 
-  const ButtonLoginAnimation(
+  const TrackingButton(
       {Key key,
         this.label,
         this.background,
@@ -22,7 +21,7 @@ class ButtonLoginAnimation extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        height: 60,
+        height: 40,
         width: double.infinity,
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -35,7 +34,7 @@ class ButtonLoginAnimation extends StatelessWidget {
         ),
         child: Text(label, style: TextStyle(
             color: fontColor,
-            fontSize: 20,
+            fontSize: 15,
             fontWeight: FontWeight.bold
         )),
       ),

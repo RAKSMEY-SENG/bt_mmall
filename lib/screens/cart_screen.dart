@@ -1,12 +1,14 @@
 import 'package:btmmall/animations/fadeAnimation.dart';
-import 'package:btmmall/components/buttonLoginAnimation.dart';
-import 'package:btmmall/components/customButtonAnimation.dart';
 import 'package:btmmall/components/loginButton.dart';
+import 'package:btmmall/components/trackingButton.dart';
 import 'package:btmmall/screens/content_screen.dart';
 import 'package:btmmall/widgets/just_for_you.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'login_screen.dart';
 
 class CartScreen extends StatefulWidget {
   @override
@@ -14,6 +16,8 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  String username,password;
+  SharedPreferences sharedPreferences;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +67,7 @@ class _CartScreenState extends State<CartScreen> {
                       alignment: Alignment.center,
                       child: Padding(
                         padding: EdgeInsets.only(top: 20),
-                        child: Column(
+                        child: FadeAnimation(1.0,Column(
                           children: <Widget>[
                             IconButton(
                               icon: Icon(Icons.shopping_cart),
@@ -77,22 +81,25 @@ class _CartScreenState extends State<CartScreen> {
                               'Your cart is empty',
                               style: TextStyle(
                                 color: Colors.black38,
-                                fontSize: 18.0,
+                                fontSize: 14.0,
                                 letterSpacing: 1.0,
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 15,left: 100,right: 100,),
-                              child: LoginButton(
+                              padding: EdgeInsets.only(top: 10,left: 100,right: 100,),
+                              child: TrackingButton(
                                 label: "Contiune Shopping",
-                                backbround: Colors.redAccent,
+                                background: Colors.redAccent,
                                 borderColor: Colors.white,
                                 fontColor: Colors.white,
-                                child: ContentScreen(),
+                                onTap: () async{
+                                  Navigator.pop(context,true);
+                                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => ContentScreen()), (Route<dynamic> route) => false);
+                                },
                               ),
                             )
                           ],
-                        ),
+                        ),)
                       ),
                     ),
                     Container(

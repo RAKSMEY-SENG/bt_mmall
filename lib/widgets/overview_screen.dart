@@ -1,4 +1,6 @@
+import 'package:btmmall/models/product_model.dart';
 import 'package:btmmall/widgets/just_for_you.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class OverviewScreen extends StatefulWidget {
@@ -10,56 +12,9 @@ class _OverviewScreenState extends State<OverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final ProductModel data = ModalRoute.of(context).settings.arguments;
     return Container(
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: 120,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/img1.png'),
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-          ),
-          Container(
-            height: 120,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/img2.png'),
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-          ),
-          Container(
-            height: 120,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/img5.png'),
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-          ),
-          Container(
-            height: 500,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/img4.png'),
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-          ),
-          Container(
-            height: 700,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/img3.png'),
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-          ),
-        ],
-      )
+      child: Image.network(data.image,fit: BoxFit.cover,),
     );
   }
 }

@@ -1,20 +1,16 @@
-import 'dart:convert';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:btmmall/components/buttonLoginAnimation.dart';
 import 'package:btmmall/components/customTextfield.dart';
-import 'package:btmmall/models/user_insert.dart';
-import 'package:btmmall/screens/content_screen.dart';
-import 'package:btmmall/screens/home_screen.dart';
+import 'package:btmmall/screens/account_screen.dart';
 import 'package:btmmall/services/api_service.dart';
-import 'package:btmmall/services/service.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provider/provider.dart';
-import 'package:btmmall/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
+
+import 'content_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
 
@@ -23,10 +19,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  Service service;
 
-  bool _isLoading = false;
-
+  SharedPreferences prefs;
+  ProgressDialog pr;
   TextEditingController etEmail = new TextEditingController();
   TextEditingController etPassword = new TextEditingController();
 
@@ -98,17 +93,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       children: <Widget>[
                         Text("Welcome",style: TextStyle(
                           color: Color(0xFFF032f42),
-                          fontSize: 30,
+                          fontSize: 25,
                           fontWeight: FontWeight.bold
                         )),
                         Text("Sign to continue",style: TextStyle(
                           color: Colors.grey,
                           fontSize: 25
                         )),
-                        SizedBox(height: 40),
+                        SizedBox(height: 30),
                         CustomTextField(
                           controller: etEmail,
                           label: "Email",
+                          icon: Icon(Icons.person, size: 27,color: Color(0xFFF032f41),),
                         ),
                         SizedBox(height: 10),
                         CustomTextField(
@@ -117,50 +113,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           isPassword: true,
                           icon: Icon(Icons.https, size: 27,color: Color(0xFFF032f41),),
                         ),
-                        SizedBox(height: 40),
-                        RaisedButton(
-                          child: Text('Login', style: TextStyle(color: Colors.white)),
-                          onPressed: () async {
-//                            await Provider.of<ApiService>(context, listen : false)
-//                                .putUser(etEmail.text.toString(),etPassword.text.toString());
-
-//                          _signIn(etEmail.text.toString(), etPassword.text.toString());
-
-                            final user = UserInsert(
-                                username: etEmail.text.toString(),
-                                password: etPassword.text.toString()
+                        SizedBox(height: 25),
+                        ButtonLoginAnimation(
+                          label: "Login",
+                          background: Colors.cyan,
+                          fontColor: Colors.white,
+                          borderColor: Colors.white,
+                          onTap: () async {
+                            pr = new ProgressDialog(context);
+                            pr.update(
+                              progress: 40.0,
+                              message: "Please wait...",
+                              progressWidget: Container(
+                                  padding: EdgeInsets.all(8.0), child: CircularProgressIndicator()),
+                              maxProgress: 100.0,
+                              progressTextStyle: TextStyle(
+                                  color: Colors.black, fontSize: 9.0, fontWeight: FontWeight.w400),
+                              messageTextStyle: TextStyle(
+                                  color: Colors.black, fontSize: 14.0, fontWeight: FontWeight.w600),
                             );
-                            service = new Service();
-                            final result = await service.putuser(user);
-
-                            final title = 'Done';
-                            final text = result.error ? (result.errorMessage ?? 'An error occurred') : 'Your note was created';
-
-                            showDialog(
+                            await pr.show();
+                            await Provider.of<ApiService>(context, listen: false).putUser(etEmail.text.toString(), etPassword.text.toString()).then((it) async {
+                              prefs = await SharedPreferences.getInstance();
+                              await prefs.setString('username', it.user_email);
+                              await prefs.setString('password', etPassword.text.toString());
+                              await prefs.setString('token', it.toString());
+                              _navigateToHome(it.id);
+                            }).catchError((onError){
+                              pr.hide();
+                              AwesomeDialog(
                                 context: context,
-                                builder: (_) => AlertDialog(
-                                  title: Text(title),
-                                  content: Text(text),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                      child: Text('Ok'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    )
-                                  ],
-                                )
-                            )
-                                .then((data) {
-                              if (result.data) {
-                                setState(() {
-                                  print("Respones : "+ result.data.toString());
-                                });
-                                Navigator.of(context).pop();
-                              }
+                                animType: AnimType.SCALE,
+                                dialogType: DialogType.INFO,
+                                body: Center(child: Text(
+                                  'Please try again!!',
+                                  style: TextStyle(fontStyle: FontStyle.italic),
+                                ),),
+                                tittle: 'This is Ignored',
+                                desc:   'This is also Ignored',
+                                btnOkOnPress: () async{},
+                              ).show();
                             });
                           },
-                        )
+                        ),
                       ],
                     ),
                   )
@@ -172,29 +167,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-  _signIn(String email, String password) async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    Map data = {
-      'username': email,
-      'psw': password
-    };
-    var jsonResponse = null;
-    var response = await http.post("https://markarianmall.com/web-service/ws-login.php", body: data);
-    print(data);
-    if(response.statusCode == 201) {
-      jsonResponse = json.encode(response.body);
-      if(jsonResponse != null) {
-        setState(() {
-          _isLoading = false;
-        });
-        sharedPreferences.setString("token", jsonResponse['token']);
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => ContentScreen()), (Route<dynamic> route) => false);
-      }
-    } else {
-      setState(() {
-        _isLoading = false;
-      });
-      print(response.body);
-    }
+  void _navigateToHome(String id){
+    pr.hide();
+    Navigator.pop(context,true);// close button arrow back
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ContentScreen(),
+          settings: RouteSettings(name: id)),
+    );
   }
 }

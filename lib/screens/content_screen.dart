@@ -1,11 +1,10 @@
-import 'dart:ui';
 import 'package:btmmall/screens/account_screen.dart';
 import 'package:btmmall/screens/cart_screen.dart';
 import 'package:btmmall/screens/category_screen.dart';
 import 'package:btmmall/screens/home_screen.dart';
+import 'package:custom_progress_dialog/custom_progress_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 
 class ContentScreen extends StatefulWidget {
@@ -14,7 +13,8 @@ class ContentScreen extends StatefulWidget {
 }
 
 class _ContentScreenState extends State<ContentScreen> {
-  static const _imageheiht = 100.0;
+
+  ProgressDialog _progressDialog = ProgressDialog();
   int _selectIndex = 0;
   Widget CallPage(int index){
     switch(index){
@@ -25,6 +25,12 @@ class _ContentScreenState extends State<ContentScreen> {
         break;
         default: return HomeScreen();
     }
+  }
+  @override
+  void initState(){
+    super.initState();
+    _progressDialog.showProgressDialog(context,dismissAfter: Duration(milliseconds: 1500),textToBeDisplayed:'Loading...',onDismiss:(){
+    });
   }
   @override
   Widget build(BuildContext context) {

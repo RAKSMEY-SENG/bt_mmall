@@ -11,27 +11,50 @@ class _ApiService implements ApiService {
   String baseUrl;
 
   @override
-  putUser(String username, String password) async{
+  Future<UserModel> putUser(String username, String password) async {
     FormData formData = FormData.fromMap({
       "username": username,
       "pwd": password
     });
-    try {
-      const _extra = <String, dynamic>{};
-      final queryParameters = <String, dynamic>{};
-      final Response _result = await _dio.post('web-service/ws-login.php',
-          queryParameters: queryParameters,
-          options: RequestOptions(
-              method: 'POST',
-              contentType: 'application/json',
-              headers: <String, dynamic>{},
-              extra: _extra,
-              baseUrl: baseUrl),
-          data: formData);
-      print("Response result :"+_result.toString());
-    } catch (e) {
-      print("Error : " + e.toString());
-    }
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final Response _result = await _dio.post('web-service/ws-login.php',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            contentType: 'application/json;charset=UTF-8',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: formData);
+    var object = jsonDecode(_result.data);
+    UserModel  data = UserModel.fromJson(object);
+    print(data);
+    return Future.value(data);
   }
 
+  @override
+  Future<List<ProductModel>> getProduct() async {
+    List<ProductModel> value = [];
+    FormData formData = FormData.fromMap({
+      "action": "get_all_product",
+    });
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final Response _result = await _dio.request('web-service/function.php',
+      queryParameters: queryParameters,
+      options: RequestOptions(
+          method: 'POST',
+          contentType: 'application/json;charset=UTF-8',
+          headers: <String, dynamic>{},
+          extra: _extra,
+          baseUrl: baseUrl),
+      data: formData,);
+      var object = jsonDecode(_result.data);
+       for(var i=0; i<10;i++){
+         ProductModel  data = ProductModel.fromJson(object[i.toString()]);
+         value.add(data);
+       }
+    return Future.value(value);
+  }
 }

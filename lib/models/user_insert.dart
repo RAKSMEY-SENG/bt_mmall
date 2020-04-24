@@ -13,8 +13,8 @@ class UserInsert {
 
   Map<String, dynamic> toJson() {
     return {
-      "user_email": username,
-      "user_pass": password
+      "username": username,
+      "pwd": password
     };
   }
 }

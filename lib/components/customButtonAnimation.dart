@@ -38,7 +38,7 @@ with TickerProviderStateMixin {
 
     _scaleController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 320)
+      duration: Duration(milliseconds: 300)
     );
 
     _scaleAnimation = Tween<double>(begin: 1.0, end: 32.0)

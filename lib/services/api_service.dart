@@ -1,4 +1,6 @@
-import 'package:btmmall/models/data.dart';
+import 'dart:convert';
+
+import 'package:btmmall/models/product_model.dart';
 import 'package:btmmall/models/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -17,6 +19,10 @@ abstract class ApiService {
   }
 
   @POST("web-service/ws-login.php")
-  putUser(@Part() String username, @Part() String password);
+  Future<UserModel> putUser(@Part() String username, @Part() String password);
+
+  @GET("web-service/function.php")
+  Future<List<ProductModel>> getProduct();
+
 
 }
