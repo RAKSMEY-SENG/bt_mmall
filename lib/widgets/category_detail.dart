@@ -1,13 +1,24 @@
 import 'package:btmmall/animations/fadeAnimation.dart';
+import 'package:btmmall/homebloc/homebloc_bloc.dart';
 import 'package:btmmall/widgets/just_for_you.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CategoryDetail extends StatefulWidget {
+class CategoryDetail extends StatelessWidget {
   @override
   _CategoryDetailState createState() => _CategoryDetailState();
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return BlocProvider<HomeblocBloc>(
+        create:(context) => HomeblocBloc(),
+        child: _CategoryDetailState()
+    );
+  }
 }
 
-class _CategoryDetailState extends State<CategoryDetail> {
+class _CategoryDetailState extends StatelessWidget {
   custom() {
     return CustomScrollView(
       slivers: <Widget>[

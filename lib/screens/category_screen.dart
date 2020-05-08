@@ -3,6 +3,7 @@ import 'package:btmmall/models/data.dart';
 import 'package:btmmall/models/product_model.dart';
 import 'package:btmmall/services/api_service.dart';
 import 'package:btmmall/widgets/category_detail.dart';
+import 'package:btmmall/widgets/search_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,6 +29,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           child: Container(
             height: 45.0,
             child: TextField(
+              readOnly: true,
               style: TextStyle(color: Colors.white),
               textAlign: TextAlign.left,
               keyboardType: TextInputType.text,
@@ -70,6 +72,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   onPressed: () {},
                 ),
               ),
+              onTap: (){
+                Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context)=>new SearchScreen(),
+                  settings: RouteSettings(),
+                ));
+              },
             ),
           ),
         ),

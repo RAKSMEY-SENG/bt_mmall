@@ -1,31 +1,43 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:btmmall/animations/fadeAnimation.dart';
+import 'package:btmmall/homebloc/homebloc_bloc.dart';
 import 'package:btmmall/widgets/greate_discout.dart';
 import 'package:btmmall/widgets/just_for_you.dart';
 import 'package:btmmall/widgets/new_product.dart';
 import 'package:btmmall/widgets/popular_category.dart';
+import 'package:btmmall/widgets/search_screen.dart';
 import 'package:btmmall/widgets/slideshow.dart';
 import 'package:btmmall/widgets/top_sell.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return BlocProvider<HomeblocBloc>(
+        create:(context) => HomeblocBloc(),
+        child: _HomeScreenState()
+    );
+  }
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   Future<void> _handleRefresh() {
     final Completer<void> completer = Completer<void>();
-    Timer(const Duration(milliseconds: 500), () {
+    Timer(const Duration(milliseconds: 400), () {
       completer.complete();
     });
     return completer.future.then<void>((_) {
@@ -39,12 +51,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
   static final List<Widget> _items = <Widget>[
-    FadeAnimation(1.2,  SlideShow()),
-    FadeAnimation(1.4,PopularCategory()),
-    FadeAnimation(1.6,TopSell()),
-    FadeAnimation(1.8,GreateDiscount()),
-    FadeAnimation(2,NewProduct()),
-    FadeAnimation(2.2,JustForYou()),
+    SlideShow(),
+    PopularCategory(),
+    TopSell(),
+    GreateDiscount(),
+    NewProduct(),
+    JustForYou(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -67,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Container(
           height: 45.0,
           child: TextField(
+            readOnly: true,
             style: TextStyle(color: Colors.white),
             textAlign: TextAlign.left,
             keyboardType: TextInputType.text,
@@ -109,6 +122,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {},
               ),
             ),
+            onTap: (){
+              Navigator.of(context).push(new MaterialPageRoute(
+                builder: (BuildContext context)=>new SearchScreen(),
+                settings: RouteSettings(),
+              ));
+            },
           ),
         ),
         elevation: 0.0,

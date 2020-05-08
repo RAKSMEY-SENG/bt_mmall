@@ -5,6 +5,7 @@ import 'package:btmmall/services/api_service.dart';
 import 'package:btmmall/widgets/change_address_screen.dart';
 import 'package:btmmall/widgets/change_password_screen.dart';
 import 'package:btmmall/widgets/order_screen.dart';
+import 'package:btmmall/widgets/search_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,7 +36,7 @@ class _AccountSceenState extends State<AccountSceen> {
   checkLoginStatus() async {
     sharedPreferences = await SharedPreferences.getInstance();
     if(sharedPreferences.getString("token") == null) {
-      //  Navigator.pop(context,true);
+//      Navigator.pop(context,true);
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new LoginScreen()));
     }else{
       setState(() {
@@ -60,6 +61,7 @@ class _AccountSceenState extends State<AccountSceen> {
             child: Container(
               height: 45.0,
               child: TextField(
+                readOnly: true,
                 style: TextStyle(color: Colors.white),
                 textAlign: TextAlign.left,
                 keyboardType: TextInputType.text,
@@ -102,6 +104,12 @@ class _AccountSceenState extends State<AccountSceen> {
                     onPressed: () {},
                   ),
                 ),
+                onTap: (){
+                  Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context)=>new SearchScreen(),
+                    settings: RouteSettings(),
+                  ));
+                },
               ),
             ),
           ),

@@ -1,21 +1,32 @@
 import 'package:btmmall/animations/fadeAnimation.dart';
 import 'package:btmmall/components/loginButton.dart';
 import 'package:btmmall/components/trackingButton.dart';
+import 'package:btmmall/homebloc/homebloc_bloc.dart';
 import 'package:btmmall/screens/content_screen.dart';
 import 'package:btmmall/widgets/just_for_you.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_screen.dart';
 
-class CartScreen extends StatefulWidget {
+class CartScreen extends StatelessWidget {
   @override
   _CartScreenState createState() => _CartScreenState();
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return BlocProvider<HomeblocBloc>(
+        create:(context) => HomeblocBloc(),
+        child: _CartScreenState()
+    );
+  }
 }
 
-class _CartScreenState extends State<CartScreen> {
+class _CartScreenState extends StatelessWidget {
   String username,password;
   SharedPreferences sharedPreferences;
   @override

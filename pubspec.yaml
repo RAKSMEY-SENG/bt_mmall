@@ -30,6 +30,10 @@ dependencies:
   custom_progress_dialog: ^1.0.5
   animated_splash: ^1.0.0
   liquid_pull_to_refresh: ^1.1.2
+  floating_search_bar:  ^0.3.0
+  badges: ^1.1.0
+  equatable: ^0.2.0
+  flutter_bloc: ^4.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

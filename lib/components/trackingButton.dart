@@ -26,7 +26,7 @@ class TrackingButton extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: background,
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(
                 color: borderColor,
                 width: 1
