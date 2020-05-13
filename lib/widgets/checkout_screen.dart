@@ -46,7 +46,7 @@ class _CheckOutScreenState extends StatelessWidget {
         if(state is ItemsLoadedState) {
           print(state.itemCart);
           _item = state.itemCart;
-          _item.forEach((k,v)=>total=total+v);
+//          _item.forEach((k,v)=>total=total+v);
         }
         return Scaffold(
           backgroundColor: Colors.grey[100],
@@ -111,7 +111,7 @@ class _CheckOutScreenState extends StatelessWidget {
                                                   decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.circular(3.0),
                                                     image: DecorationImage(
-                                                      image: NetworkImage(""),
+                                                      image: NetworkImage(price),
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
@@ -133,7 +133,7 @@ class _CheckOutScreenState extends StatelessWidget {
                                                                   Container(
                                                                     width: 220,
                                                                     padding: EdgeInsets.only(top: 2),
-                                                                    child: Text("\$"+price,style: TextStyle(color: Colors.orange)),
+                                                                    child: Text("\$245",style: TextStyle(color: Colors.orange)),
                                                                   ),
                                                                 ],
                                                               )

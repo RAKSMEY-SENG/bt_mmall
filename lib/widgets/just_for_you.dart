@@ -425,7 +425,7 @@ class _JustForYouState extends State<JustForYou> {
                                 price: 245,
                                 image: tasks.image
                             )));
-                        Navigator.push(context, MaterialPageRoute(builder:(context) => CheckOutScreen()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder:(context) => CheckOutScreen()));
 //                        Navigator.of(context).push(new MaterialPageRoute(
 //                          builder: (BuildContext context)=>new CheckOutScreen(),
 //                          settings: RouteSettings(arguments: tasks),

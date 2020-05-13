@@ -37,7 +37,7 @@ class _AccountSceenState extends State<AccountSceen> {
     sharedPreferences = await SharedPreferences.getInstance();
     if(sharedPreferences.getString("token") == null) {
 //      Navigator.pop(context,true);
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new LoginScreen()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => new LoginScreen()));
     }else{
       setState(() {
         username = sharedPreferences.getString("username");

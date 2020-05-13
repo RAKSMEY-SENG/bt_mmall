@@ -21,7 +21,10 @@ class StoreData {
     print(price);
     print(image);
 //    Store it as a key value pair
-    _ItemCart[name] = price;
+    _ItemCart[name] = image;
+//    _ItemCart["name"] = name;
+//    _ItemCart["price"] = price;
+//    _ItemCart["image"] = image;
   print(_ItemCart);
   }
 

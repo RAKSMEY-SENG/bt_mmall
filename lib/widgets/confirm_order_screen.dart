@@ -37,7 +37,7 @@ class _ConfirmOrderState extends StatelessWidget {
   Widget build(BuildContext context) {
     Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
     int total = 0;
-    data.forEach((k,v)=>total=total+v);
+//    data.forEach((k,v)=>total=total+v);
         return Scaffold(
           backgroundColor: Color(0xFF7014B71),
           appBar: AppBar(
@@ -64,7 +64,7 @@ class _ConfirmOrderState extends StatelessWidget {
                               children: <Widget>[
                                 Text(key,style: TextStyle(color: Colors.white)),
                                 Text("QTY1",style: TextStyle(color: Colors.white)),
-                                Text("\$"+data[key].toString(),style: TextStyle(color: Colors.white)),
+                                Text("\$275",style: TextStyle(color: Colors.white)),
                               ],
                             ),
                           ),
