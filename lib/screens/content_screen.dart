@@ -29,7 +29,7 @@ class _ContentScreenState extends State<ContentScreen> {
   @override
   void initState(){
     super.initState();
-    _progressDialog.showProgressDialog(context,dismissAfter: Duration(milliseconds: 1500),textToBeDisplayed:'Loading...',onDismiss:(){
+    _progressDialog.showProgressDialog(context,dismissAfter: Duration(milliseconds: 2000),textToBeDisplayed:'Loading...',onDismiss:(){
     });
   }
   @override

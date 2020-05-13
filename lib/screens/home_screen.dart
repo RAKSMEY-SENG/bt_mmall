@@ -37,7 +37,7 @@ class _HomeScreenState extends StatelessWidget {
 
   Future<void> _handleRefresh() {
     final Completer<void> completer = Completer<void>();
-    Timer(const Duration(milliseconds: 400), () {
+    Timer(const Duration(milliseconds: 2000), () {
       completer.complete();
     });
     return completer.future.then<void>((_) {
@@ -144,7 +144,7 @@ class _HomeScreenState extends StatelessWidget {
           ),
         ],
       ),
-      body: LiquidPullToRefresh(
+      body: RefreshIndicator(
         color:  Colors.deepOrange,
         key: _refreshIndicatorKey,
         onRefresh: _handleRefresh,

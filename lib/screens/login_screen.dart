@@ -125,7 +125,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     if (result.status == FacebookLoginStatus.loggedIn) {
-      final FirebaseUser user = await _auth.signInWithCredential(credential);
+//      final FirebaseUser user = await _auth.signInWithCredential(credential);
+      final FirebaseUser user = (await _auth.signInWithCredential(credential)) as FirebaseUser;
       prefs = await SharedPreferences.getInstance();
       await prefs.setString('username', user.displayName);
       await prefs.setString('photo', user.photoUrl);
