@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:btmmall/models/category_model.dart';
 import 'package:btmmall/models/data.dart';
 import 'package:btmmall/models/product_model.dart';
 import 'package:btmmall/services/api_service.dart';
@@ -96,64 +97,26 @@ class _CategoryScreenState extends State<CategoryScreen> {
           ),
         ],
       ),
-      body: _listFutureTasks(context),
-//      body: Container(
-//        child: Row(
-//          children: <Widget>[
-//            new Container(
-//              width: 100,
-//              color: Color.fromARGB(219,219, 219, 219 ),
-//              child: ListView.builder(
-//                primary: false,
-//                itemCount: cate.length,
-//                padding: EdgeInsets.only(right: 5),
-//                itemBuilder: (BuildContext context, int index) {
-//                  return new Container(
-//                    child: new Column(
-//                      children: <Widget>[
-//                        new Hero(
-//                          tag: cate[index].name,
-//                          child: new Material(
-//                            child: new InkWell(
-//                              onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(
-//                                builder: (BuildContext context)=>new CategoryDetail(),
-//                              ),
-//                              ),
-//                              child: new Column(
-//                                children: <Widget>[
-//                                  new Image.asset(cate[index].imageUrl),
-//                                  new Text(
-//                                    cate[index].name,
-//                                    style: TextStyle(
-//                                      color: Colors.black,
-//                                      fontSize: 7.0,
-//                                      fontWeight: FontWeight.w600,
-//                                    ),
-//                                  ),
-//                                  SizedBox(height: 0.5,child: Container(color: Colors.black12,),),
-//                                ],
-//                              ),
-//                            ),
-//                          ),
-//                        ),
-//                      ],
-//                    ),
-//                  );
-//                },
-//              ),
-//            ),
-//            new Container(
-//              width: MediaQuery.of(context).size.width-120,
-//            ),
-//          ],
-//        ),
-//      ),
+      body: Container(
+        child: Row(
+          children: <Widget>[
+            new Container(
+              width: 100,
+              color: Color.fromARGB(219,219, 219, 219 ),
+              child: _listFutureTasks(context)
+            ),
+            new Container(
+              width: MediaQuery.of(context).size.width-120,
+            ),
+          ],
+        ),
+      ),
     );
   }
   FutureBuilder _listFutureTasks(BuildContext context) {
-    return FutureBuilder<List<ProductModel>>(
-      future: Provider.of<ApiService>(context, listen: false).getProduct(),
-      builder: (BuildContext context, AsyncSnapshot<List<ProductModel>> snapshot) {
+    return FutureBuilder<List<CategoryModel>>(
+      future: Provider.of<ApiService>(context, listen: false).getCategory(),
+      builder: (BuildContext context, AsyncSnapshot<List<CategoryModel>> snapshot) {
         if(snapshot.connectionState == ConnectionState.done) {
           if(snapshot.hasError) {
             return Container(
@@ -176,19 +139,44 @@ class _CategoryScreenState extends State<CategoryScreen> {
     );
   }
 
-  ListView _listTasks({BuildContext context, List<ProductModel> tasks}) {
+  ListView _listTasks({BuildContext context, List<CategoryModel> tasks}) {
     return ListView.builder(
-        itemCount: tasks.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            child: Container(
-              padding: EdgeInsets.all(10.0),
-              child: ListTile(
-                leading: Image.network(tasks[index].image),
-                title: Text(tasks[index].name),
+      primary: false,
+      itemCount: tasks.length,
+      padding: EdgeInsets.only(right: 5),
+      itemBuilder: (BuildContext context, int index) {
+        return new Container(
+          child: new Column(
+            children: <Widget>[
+              new Hero(
+                tag: tasks[index].name,
+                child: new Material(
+                  child: new InkWell(
+                    onTap: ()=>Navigator.of(context).push(new MaterialPageRoute(
+                      builder: (BuildContext context)=>new CategoryDetail(),
+                    ),
+                    ),
+                    child: new Column(
+                      children: <Widget>[
+//                        new Image.asset(tasks[index].image),
+                        new Text(
+                          tasks[index].name,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 7.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(height: 0.5,child: Container(color: Colors.black12,),),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-          );
-        });
+            ],
+          ),
+        );
+      },
+    );
   }
 }

@@ -10,6 +10,7 @@ import 'package:btmmall/widgets/just_for_you.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_counter/flutter_counter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -83,7 +84,7 @@ class _CheckOutScreenState extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Container(
-                  height: MediaQuery.of(context).size.height-130,
+                  height: MediaQuery.of(context).size.height-135,
                   child: ListView.builder(
                       itemCount: _item.keys.length,
                       itemBuilder: (BuildContext context, int count) {
@@ -162,22 +163,23 @@ class _CheckOutScreenState extends StatelessWidget {
                                                                     )
                                                                 ),
                                                                 Container(
-                                                                  height: 30,
+                                                                  height: 40,
                                                                   child: Row(
                                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                     children: <Widget>[
-                                                                      IconButton(
-                                                                        icon: Icon(Icons.do_not_disturb_on,color: Colors.grey),
-                                                                        onPressed: (){},
-                                                                      ),
-                                                                      Text("1"),
-                                                                      IconButton(
-                                                                        icon: Icon(Icons.add_circle,color: Colors.grey),
-                                                                        onPressed: (){},
-                                                                      )
+                                                                      CountItem(),
+//                                                                      IconButton(
+//                                                                        icon: Icon(Icons.do_not_disturb_on,color: Colors.grey),
+//                                                                        onPressed: (){},
+//                                                                      ),
+//                                                                      Text("1"),
+//                                                                      IconButton(
+//                                                                        icon: Icon(Icons.add_circle,color: Colors.grey),
+//                                                                        onPressed: (){},
+//                                                                      )
                                                                     ],
                                                                   ),
-                                                                )
+                                                                ),
                                                               ],
                                                             ),
                                                           )
@@ -292,6 +294,32 @@ class CheckboxWidgetClass extends State {
       onChanged: (value) {
         setState(() {
           isChecked = value;
+        });
+      },
+    );
+  }
+}
+class CountItem extends StatefulWidget {
+  @override
+  CountItemClass createState() => new CountItemClass();
+}
+class CountItemClass extends State {
+  int _counter = 0;
+  int _defaultValue = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Counter(
+      initialValue: _defaultValue,
+      minValue: 0,
+      maxValue: 10,
+      color: Colors.grey,
+      step: 1,
+      decimalPlaces: 0,
+      onChanged: (value) {
+        setState(() {
+          _defaultValue = value;
+          _counter = value;
         });
       },
     );

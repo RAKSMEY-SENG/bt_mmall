@@ -103,7 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(height: 30),
                         CustomTextField(
                           controller: etEmail,
-                          label: "Email",
+                          label: "Username",
                           icon: Icon(Icons.person, size: 27,color: Color(0xFFF032f41),),
                         ),
                         SizedBox(height: 10),
@@ -143,6 +143,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               pr.hide();
                               AwesomeDialog(
                                 context: context,
+                                dismissOnTouchOutside: false,
                                 animType: AnimType.SCALE,
                                 dialogType: DialogType.INFO,
                                 body: Center(child: Text(
@@ -169,12 +170,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
   void _navigateToHome(String id){
     pr.hide();
-    Navigator.pop(context,true);// close button arrow back
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ContentScreen(),
-          settings: RouteSettings(name: id)),
-    );
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => ContentScreen()), (Route<dynamic> route) => false);
   }
 }

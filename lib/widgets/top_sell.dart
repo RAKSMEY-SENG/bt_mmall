@@ -123,14 +123,14 @@ class _TopSellState extends State<TopSell> {
                         height: 25,
                         color: Color.fromARGB(255,255, 204, 153),
                         child: Padding(
-                          padding: EdgeInsets.only(top: 3),
+                          padding: EdgeInsets.only(top: 0),
                           child: Text(
                             tasks[index].name,
                             textAlign: TextAlign.center,
                             style: GoogleFonts.openSans(
                                 textStyle: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 7,
+                                    fontSize: 9,
                                     fontWeight: FontWeight.w600)),
                           ),
                         ),

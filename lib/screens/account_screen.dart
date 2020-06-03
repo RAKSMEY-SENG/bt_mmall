@@ -283,6 +283,7 @@ class _AccountSceenState extends State<AccountSceen> {
                       title: Text("Log Out",style: TextStyle(fontSize: 16,color: Colors.black),),
                       onTap: (){
                         AwesomeDialog(
+                          dismissOnTouchOutside: false,
                           context: context,
                           animType: AnimType.SCALE,
                           dialogType: DialogType.INFO,

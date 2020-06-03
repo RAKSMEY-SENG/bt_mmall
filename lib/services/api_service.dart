@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:btmmall/models/category_model.dart';
+import 'package:btmmall/models/data.dart';
 import 'package:btmmall/models/product_model.dart';
 import 'package:btmmall/models/user_model.dart';
 import 'package:dio/dio.dart';
@@ -24,5 +26,7 @@ abstract class ApiService {
   @GET("web-service/function.php")
   Future<List<ProductModel>> getProduct();
 
+  @GET("web-service/function.php")
+  Future<List<CategoryModel>> getCategory();
 
 }

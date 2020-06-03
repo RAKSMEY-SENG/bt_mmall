@@ -55,6 +55,7 @@ dependencies:
   dio: ^3.0.8
   chopper: ^2.4.0
   material_design_icons_flutter: ^3.2.3895
+  flutter_counter: ^1.0.3
 
 dev_dependencies:
   flutter_test:

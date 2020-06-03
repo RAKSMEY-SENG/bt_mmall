@@ -57,4 +57,28 @@ class _ApiService implements ApiService {
        }
     return Future.value(value);
   }
+
+  @override
+  Future<List<CategoryModel>> getCategory() async {
+    FormData formData = FormData.fromMap({
+      "action": "category_term",
+    });
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final Response _result = await _dio.request('web-service/function.php',
+      queryParameters: queryParameters,
+      options: RequestOptions(
+          method: 'POST',
+          headers: <String, dynamic>{},
+          extra: _extra,
+          baseUrl: baseUrl),
+      data: formData,);
+    List object = jsonDecode(_result.data);
+    print(object);
+    var value = object
+        .map((dynamic i) => CategoryModel.fromJson(i as Map<String, dynamic>))
+        .toList();
+    print(value);
+    return Future.value(value);
+  }
 }
