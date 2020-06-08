@@ -158,12 +158,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                     child: new Column(
                       children: <Widget>[
-//                        new Image.asset(tasks[index].image),
+                        new Image.network(tasks[index].image, width: 50, height: 60,),
                         new Text(
                           tasks[index].name,
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 7.0,
+                            fontSize: 10.0,
                             fontWeight: FontWeight.w600,
                           ),
                         ),

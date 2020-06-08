@@ -61,7 +61,7 @@ class _ApiService implements ApiService {
   @override
   Future<List<CategoryModel>> getCategory() async {
     FormData formData = FormData.fromMap({
-      "action": "category_term",
+      "action": "category_term_image",
     });
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

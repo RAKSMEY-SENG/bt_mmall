@@ -12,6 +12,7 @@ class CategoryModel {
   int parent;
   int count;
   String filter;
+  String image;
 
   CategoryModel(
       {this.termId,
@@ -23,7 +24,8 @@ class CategoryModel {
         this.description,
         this.parent,
         this.count,
-        this.filter});
+        this.filter,
+        this.image});
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
     termId = json['term_id'];
@@ -36,6 +38,7 @@ class CategoryModel {
     parent = json['parent'];
     count = json['count'];
     filter = json['filter'];
+    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +53,7 @@ class CategoryModel {
     data['parent'] = this.parent;
     data['count'] = this.count;
     data['filter'] = this.filter;
+    data['image'] = this.image;
     return data;
   }
 }

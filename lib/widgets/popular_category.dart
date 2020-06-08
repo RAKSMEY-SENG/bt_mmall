@@ -93,7 +93,7 @@ class _PopularCategoryState extends State<PopularCategory> {
                     ),
                     child: new Column(
                       children: <Widget>[
-//                        new Image.asset(tasks[index].image,fit: BoxFit.cover,),
+                        new Image.network(tasks[index].image, width: 50, height: 60,),
                         new Text(
                           tasks[index].name,
                           style: TextStyle(
