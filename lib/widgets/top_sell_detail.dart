@@ -81,35 +81,28 @@ class _TopSellDetailState extends State<TopSellDetail> {
           child: SizedBox(
             child: Column(
               children: <Widget>[
+                Text(
+                  "\$89.00",
+                  style: TextStyle(
+                    color: Colors.redAccent,
+                    fontSize: 25.0,
+                  ),
+                ),
+                Text(
+                  data.name,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 16.0,
+                  ),
+                ),
+                SizedBox(height: 5),
                 Container(
-                  margin: EdgeInsets.only(top: 10,right: 270),
-                  child: Text(
-                    "\$89.00",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: Colors.redAccent,
-                      fontSize: 25.0,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Text(
-                    data.name,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 5,),
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Container(
-                        width: 160,
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.only(left: 15,right: 5),
+                        width: MediaQuery.of(context).size.width/2,
                         height: 50,
                         child: TextField(
                           readOnly: true,
@@ -150,11 +143,9 @@ class _TopSellDetailState extends State<TopSellDetail> {
                           },
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Container(
-                        width: 160,
+                      Container(
+                        padding: EdgeInsets.only(right: 15,left: 5),
+                        width: MediaQuery.of(context).size.width/2,
                         height: 50,
                         child: TextField(
                           readOnly: true,
@@ -194,9 +185,9 @@ class _TopSellDetailState extends State<TopSellDetail> {
                             _SizeModalBottomSheet(context);
                           },
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
                 SizedBox(height: 20,),
                 Container(

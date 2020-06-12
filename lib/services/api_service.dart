@@ -29,4 +29,10 @@ abstract class ApiService {
   @GET("web-service/function.php")
   Future<List<CategoryModel>> getCategory();
 
+  @POST("web-service/function.php")
+  Future<UserModel> fb_Register(@Part() String fid, @Part() String email, @Path() String firstname, @Path() String lastname, @Path() String name);
+
+  @POST("web-service/function.php")
+  Future<UserModel> Register(@Part() String username, @Part() String password);
+
 }

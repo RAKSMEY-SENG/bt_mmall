@@ -36,7 +36,7 @@ class _PopularCategoryState extends State<PopularCategory> {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height,
+            height: 300,
             child: _listFutureTasks(context)
           )
         ],
@@ -72,10 +72,10 @@ class _PopularCategoryState extends State<PopularCategory> {
   GridView _listTasks({BuildContext context, List<CategoryModel> tasks}) {
     return  GridView.builder(
       physics: NeverScrollableScrollPhysics(),
-      itemCount: tasks.length,
+      itemCount: 12,
       padding: EdgeInsets.all(8.0),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 5,
+        crossAxisCount: 4,
         crossAxisSpacing: 1.0,
         mainAxisSpacing: 5.0,
       ),

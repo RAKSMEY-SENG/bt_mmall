@@ -97,7 +97,7 @@ class _CartScreenState extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 10,left: 100,right: 100,),
+                              padding: EdgeInsets.only(top: 10,left: 50,right: 50,),
                               child: TrackingButton(
                                 label: "Contiune Shopping",
                                 background: Colors.redAccent,

@@ -81,4 +81,79 @@ class _ApiService implements ApiService {
     print(value);
     return Future.value(value);
   }
+
+  @override
+  Future<UserModel> fb_Register(String fid, String email, String firstname, String lastname, String name) async{
+    FormData formData = FormData.fromMap({
+      "action": "sociallogin",
+      "fbid": fid,
+      "email": email,
+      "first_name": firstname,
+      "last_name": lastname,
+      "name": name,
+    });
+    try {
+      const _extra = <String, dynamic>{};
+      final queryParameters = <String, dynamic>{};
+      final Response _result = await _dio.post('web-service/function.php',
+          queryParameters: queryParameters,
+          options: RequestOptions(
+              method: 'POST',
+              contentType: 'multipart/form-data',
+              headers: <String, dynamic>{},
+              extra: _extra,
+              baseUrl: baseUrl),
+          data: formData);
+      print("Response : " + _result.data);
+      var object = jsonDecode(_result.data);
+      UserModel data = UserModel.fromJson(object);
+      print(data);
+      return Future.value(data);
+    } on DioError catch (e){
+      if (e.response != null) {
+        print(e.response.data);
+        print(e.response.headers);
+        print(e.response.request);
+      } else {
+        print(e.request.headers);
+        print(e.message);
+      }
+    }
+  }
+
+  @override
+  Future<UserModel> Register(String username, String password) async {
+    FormData formData = FormData.fromMap({
+      "action": "registeruser",
+      "username": username,
+      "pwd": password,
+    });
+    try {
+      const _extra = <String, dynamic>{};
+      final queryParameters = <String, dynamic>{};
+      final Response _result = await _dio.post('web-service/function.php',
+          queryParameters: queryParameters,
+          options: RequestOptions(
+              method: 'POST',
+              contentType: 'multipart/form-data',
+              headers: <String, dynamic>{},
+              extra: _extra,
+              baseUrl: baseUrl),
+          data: formData);
+      print("Response : " + _result.data);
+      var object = jsonDecode(_result.data);
+      UserModel data = UserModel.fromJson(object);
+      print(data);
+      return Future.value(data);
+    } on DioError catch (e){
+      if (e.response != null) {
+        print(e.response.data);
+        print(e.response.headers);
+        print(e.response.request);
+      } else {
+        print(e.request.headers);
+        print(e.message);
+      }
+    }
+  }
 }

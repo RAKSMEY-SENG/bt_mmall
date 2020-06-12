@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:btmmall/animations/fadeAnimation.dart';
 import 'package:btmmall/components/customButton.dart';
 import 'package:btmmall/components/customButtonAnimation.dart';
+import 'package:btmmall/screens/account_screen.dart';
 import 'package:btmmall/screens/content_screen.dart';
 import 'package:btmmall/screens/signup_screen.dart';
+import 'package:btmmall/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -106,12 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   void _logIn() {
     _loginWithFacebook().then((response) {
-      if (response != null) {
-        _currentUser = response;
-        _navigateToHome(_currentUser);
-        isLogged = true;
-        setState(() {});
-      }
+      _navigateToHome();
     });
   }
   Future<FirebaseUser> _loginWithFacebook() async {
@@ -125,23 +123,24 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     if (result.status == FacebookLoginStatus.loggedIn) {
-//      final FirebaseUser user = await _auth.signInWithCredential(credential);
-      final FirebaseUser user = (await _auth.signInWithCredential(credential)) as FirebaseUser;
-      prefs = await SharedPreferences.getInstance();
-      await prefs.setString('username', user.displayName);
-      await prefs.setString('photo', user.photoUrl);
-      await prefs.setString('token', user.toString());
-      return user;
+      final FirebaseUser user = await _auth.signInWithCredential(credential);
+      List<String> name = user.displayName.split(' ');
+      String firstname = name[0];
+      String lastname = name[1];
+      final api = Provider.of<ApiService>(context, listen: false);
+      api.fb_Register(user.uid, "", firstname, lastname, user.displayName).then((it) async{
+        prefs = await SharedPreferences.getInstance();
+        await prefs.setString('username', user.displayName);
+        await prefs.setString('photo', user.photoUrl);
+        await prefs.setString('token', user.toString());
+        _navigateToHome();
+      }).catchError((onError){
+        print(onError.toString());
+      });
     }
     return null;
   }
-  void _navigateToHome(FirebaseUser id){
-    Navigator.pop(context,true);// close button arrow back
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-          builder: (context) => ContentScreen(),
-          settings: RouteSettings(name: id.toString())),
-    );
+  void _navigateToHome(){
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => ContentScreen()), (Route<dynamic> route) => false);
   }
 }

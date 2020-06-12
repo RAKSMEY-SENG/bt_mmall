@@ -3,6 +3,7 @@ import 'package:btmmall/checkout/checkout_bloc.dart';
 import 'package:btmmall/checkout/checkout_event.dart';
 import 'package:btmmall/checkout/checkout_state.dart';
 import 'package:btmmall/components/loginButton.dart';
+import 'package:btmmall/models/add_card_model.dart';
 import 'package:btmmall/models/product_model.dart';
 import 'package:btmmall/screens/content_screen.dart';
 import 'package:btmmall/widgets/confirm_order_screen.dart';
@@ -42,6 +43,7 @@ class _CheckOutScreenState extends StatelessWidget {
     int total = 0;
     _checkoutBloc.add(LoadItemsEvent());
     Map<String, dynamic> _item = Map<String,dynamic>();
+    CardModel data = ModalRoute.of(context).settings.arguments;
     return BlocBuilder<CheckoutBloc, CheckoutState>(
       builder: (context, state){
         if(state is ItemsLoadedState) {
@@ -134,7 +136,7 @@ class _CheckOutScreenState extends StatelessWidget {
                                                                   Container(
                                                                     width: 220,
                                                                     padding: EdgeInsets.only(top: 2),
-                                                                    child: Text("\$245",style: TextStyle(color: Colors.orange)),
+                                                                    child: Text("\$"+data.price,style: TextStyle(color: Colors.orange)),
                                                                   ),
                                                                 ],
                                                               )
@@ -152,12 +154,12 @@ class _CheckOutScreenState extends StatelessWidget {
                                                                       children: <Widget>[
                                                                         Container(
                                                                           width: 110,
-                                                                          child: Text("Color: BLACK"),
+                                                                          child: Text("Color: "+data.color),
                                                                         ),
                                                                         Container(
                                                                           padding: EdgeInsets.only(top: 2),
                                                                           width: 110,
-                                                                          child: Text("Size: 50m"),
+                                                                          child: Text("Size: "+data.size),
                                                                         ),
                                                                       ],
                                                                     )
@@ -168,15 +170,6 @@ class _CheckOutScreenState extends StatelessWidget {
                                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                     children: <Widget>[
                                                                       CountItem(),
-//                                                                      IconButton(
-//                                                                        icon: Icon(Icons.do_not_disturb_on,color: Colors.grey),
-//                                                                        onPressed: (){},
-//                                                                      ),
-//                                                                      Text("1"),
-//                                                                      IconButton(
-//                                                                        icon: Icon(Icons.add_circle,color: Colors.grey),
-//                                                                        onPressed: (){},
-//                                                                      )
                                                                     ],
                                                                   ),
                                                                 ),
@@ -264,7 +257,7 @@ class _CheckOutScreenState extends StatelessWidget {
                     borderColor: Colors.transparent,
                     fontColor: Colors.white,
                     onTap: () async{
-                      Navigator.of(context).push(new MaterialPageRoute(
+                      Navigator.of(context).pushReplacement(new MaterialPageRoute(
                         builder: (BuildContext context)=>new ConfirmOrder(),
                         settings: RouteSettings(arguments: _item),
                         ),

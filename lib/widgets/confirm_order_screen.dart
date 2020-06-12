@@ -35,7 +35,8 @@ class _ConfirmOrderState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> data = ModalRoute.of(context).settings.arguments;
+    Map<String, dynamic> data = Map<String,dynamic>();
+    data = ModalRoute.of(context).settings.arguments;
     int total = 0;
 //    data.forEach((k,v)=>total=total+v);
         return Scaffold(

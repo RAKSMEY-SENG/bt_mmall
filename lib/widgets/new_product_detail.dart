@@ -83,120 +83,109 @@ class _NewProductDetailState extends State<NewProductDetail> {
               child: Container(
                 child: Column(
                   children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(top: 10,right: 270),
-                      child: Text(
-                        "\$89.00",
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: Colors.redAccent,
-                          fontSize: 25.0,
-                        ),
+                    Text(
+                      "\$89.00",
+                      style: TextStyle(
+                        color: Colors.redAccent,
+                        fontSize: 25.0,
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text(
-                        data.name,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.0,
-                        ),
+                    Text(
+                      data.name,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16.0,
                       ),
                     ),
+                    SizedBox(height: 5),
                     Container(
-                      margin: EdgeInsets.only(top: 5),
+                      width: MediaQuery.of(context).size.width,
                       child: Row(
                         children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Container(
-                              width: 160,
-                              height: 50,
-                              child: TextField(
-                                readOnly: true,
-                                style: TextStyle(color: Colors.white),
-                                textAlign: TextAlign.left,
-                                keyboardType: TextInputType.text,
-                                controller: null,
-                                decoration: InputDecoration(
-                                  hintText: "Black",
-                                  hintStyle: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                      )
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  contentPadding: EdgeInsets.all(20),
-                                  suffixIcon: IconButton(
-                                    icon: Icon(Icons.keyboard_arrow_up,size: 25,),
-                                    iconSize: 20,
-                                    color: Colors.black,
-                                    onPressed: () {},
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.grey[200],
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                                    borderSide: BorderSide(
-                                        width: 0,
-                                        color: Colors.deepOrange
-                                    ),
+                          Container(
+                            padding: EdgeInsets.only(left: 15,right: 5),
+                            width: MediaQuery.of(context).size.width/2,
+                            height: 50,
+                            child: TextField(
+                              readOnly: true,
+                              style: TextStyle(color: Colors.white),
+                              textAlign: TextAlign.left,
+                              keyboardType: TextInputType.text,
+                              controller: null,
+                              decoration: InputDecoration(
+                                hintText: "Black",
+                                hintStyle: GoogleFonts.openSans(
+                                    textStyle: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                    )
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                contentPadding: EdgeInsets.all(20),
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.keyboard_arrow_up,size: 25,),
+                                  iconSize: 20,
+                                  color: Colors.black,
+                                  onPressed: () {},
+                                ),
+                                filled: true,
+                                fillColor: Colors.grey[200],
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                                  borderSide: BorderSide(
+                                      width: 0,
+                                      color: Colors.deepOrange
                                   ),
                                 ),
-                                onTap: (){
-                                  _ColorModalBottomSheet(context);
-                                },
                               ),
+                              onTap: (){
+                                _ColorModalBottomSheet(context);
+                              },
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Container(
-                              width: 160,
-                              height: 50,
-                              child: TextField(
-                                readOnly: true,
-                                style: TextStyle(color: Colors.white),
-                                textAlign: TextAlign.left,
-                                keyboardType: TextInputType.text,
-                                controller: null,
-                                decoration: InputDecoration(
-                                  hintText: "50m",
-                                  hintStyle: GoogleFonts.openSans(
-                                      textStyle: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                      )
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  contentPadding: EdgeInsets.all(20),
-                                  suffixIcon: IconButton(
-                                    icon: Icon(Icons.keyboard_arrow_up,size: 25,),
-                                    iconSize: 20,
-                                    color: Colors.black,
-                                    onPressed: () {},
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.grey[200],
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                                    borderSide: BorderSide(
-                                        width: 0,
-                                        color: Colors.deepOrange
-                                    ),
+                          Container(
+                            padding: EdgeInsets.only(right: 15,left: 5),
+                            width: MediaQuery.of(context).size.width/2,
+                            height: 50,
+                            child: TextField(
+                              readOnly: true,
+                              style: TextStyle(color: Colors.white),
+                              textAlign: TextAlign.left,
+                              keyboardType: TextInputType.text,
+                              controller: null,
+                              decoration: InputDecoration(
+                                hintText: "50m",
+                                hintStyle: GoogleFonts.openSans(
+                                    textStyle: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                    )
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                contentPadding: EdgeInsets.all(20),
+                                suffixIcon: IconButton(
+                                  icon: Icon(Icons.keyboard_arrow_up,size: 25,),
+                                  iconSize: 20,
+                                  color: Colors.black,
+                                  onPressed: () {},
+                                ),
+                                filled: true,
+                                fillColor: Colors.grey[200],
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                                  borderSide: BorderSide(
+                                      width: 0,
+                                      color: Colors.deepOrange
                                   ),
                                 ),
-                                onTap: (){
-                                  _SizeModalBottomSheet(context);
-                                },
                               ),
+                              onTap: (){
+                                _SizeModalBottomSheet(context);
+                              },
                             ),
                           )
                         ],

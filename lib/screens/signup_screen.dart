@@ -120,7 +120,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           fontColor: Colors.white,
                           borderColor: Colors.white,
                           onTap: () async {
-                            pr = new ProgressDialog(context);
+                            pr = new ProgressDialog(context,isDismissible: false);
                             pr.update(
                               progress: 40.0,
                               message: "Please wait...",
@@ -135,8 +135,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             await pr.show();
                             await Provider.of<ApiService>(context, listen: false).putUser(etEmail.text.toString(), etPassword.text.toString()).then((it) async {
                               prefs = await SharedPreferences.getInstance();
-                              await prefs.setString('username', it.user_email);
-                              await prefs.setString('password', etPassword.text.toString());
+                              await prefs.setString('username', it.display_name);
+                              await prefs.setString('photo', it.user_url);
                               await prefs.setString('token', it.toString());
                               _navigateToHome(it.id);
                             }).catchError((onError){

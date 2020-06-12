@@ -1,6 +1,7 @@
 import 'package:btmmall/components/loginButton.dart';
 import 'package:btmmall/homebloc/bloc.dart';
 import 'package:btmmall/homebloc/homebloc_bloc.dart';
+import 'package:btmmall/models/add_card_model.dart';
 import 'package:btmmall/models/data.dart';
 import 'package:btmmall/models/addproduct_model.dart';
 import 'package:btmmall/models/product_model.dart';
@@ -83,7 +84,7 @@ class _JustForYouState extends State<JustForYou> {
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: tasks.length,
+      itemCount: 8,
       padding: EdgeInsets.all(10.0),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -221,181 +222,162 @@ class _JustForYouState extends State<JustForYou> {
                         )
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Container(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Container(
-                                width: 150,
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.all(5.0),
-                                      child: Container(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text("Color")
-                                      ),
-                                    ),
-                                    TextField(
-                                      readOnly: true,
-                                      style: TextStyle(color: Colors.white),
-                                      textAlign: TextAlign.left,
-                                      keyboardType: TextInputType.text,
-                                      controller: null,
-                                      decoration: InputDecoration(
-                                        hintText: "Please Select",
-                                        hintStyle: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.black,
-                                            )
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(5),
-                                        ),
-                                        contentPadding: EdgeInsets.all(10),
-                                        suffixIcon: IconButton(
-                                          icon: Icon(Icons.keyboard_arrow_up,size: 25,),
-                                          iconSize: 14,
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                            padding: EdgeInsets.only(left: 15,right: 5),
+                            width: MediaQuery.of(context).size.width/2,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text("Color")
+                                ),
+                                TextField(
+                                  readOnly: true,
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.left,
+                                  keyboardType: TextInputType.text,
+                                  controller: null,
+                                  decoration: InputDecoration(
+                                    hintText: "Please Select",
+                                    hintStyle: GoogleFonts.openSans(
+                                        textStyle: TextStyle(
+                                          fontSize: 10,
                                           color: Colors.black,
-                                          onPressed: () {},
-                                        ),
-                                        filled: true,
-                                        fillColor: Colors.grey[200],
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                                          borderSide: BorderSide(
-                                              width: 0,
-                                              color: Colors.deepOrange
-                                          ),
-                                        ),
-                                      ),
-                                      onTap: (){
-                                        _ColorModalBottomSheet(context);
-                                      },
+                                        )
                                     ),
-                                  ],
-                                )
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(5.0),
-                            child: Container(
-                                width: 150,
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.all(5.0),
-                                      child: Container(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text("Size"),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    contentPadding: EdgeInsets.all(10),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.keyboard_arrow_up,size: 25,),
+                                      iconSize: 14,
+                                      color: Colors.black,
+                                      onPressed: () {},
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.grey[200],
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                                      borderSide: BorderSide(
+                                          width: 0,
+                                          color: Colors.deepOrange
                                       ),
                                     ),
-                                    TextField(
-                                      readOnly: true,
-                                      style: TextStyle(color: Colors.white),
-                                      textAlign: TextAlign.left,
-                                      keyboardType: TextInputType.text,
-                                      controller: null,
-                                      decoration: InputDecoration(
-                                        hintText: "Please Select",
-                                        hintStyle: GoogleFonts.openSans(
-                                            textStyle: TextStyle(
-                                              fontSize: 10,
-                                              color: Colors.black,
-                                            )
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(5),
-                                        ),
-                                        contentPadding: EdgeInsets.all(10),
-                                        suffixIcon: IconButton(
-                                          icon: Icon(Icons.keyboard_arrow_up,size: 25,),
-                                          iconSize: 14,
+                                  ),
+                                  onTap: (){
+                                    _ColorModalBottomSheet(context);
+                                  },
+                                ),
+                              ],
+                            )
+                        ),
+                        Container(
+                            padding: EdgeInsets.only(left: 15,right: 5),
+                            width: MediaQuery.of(context).size.width/2,
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text("Size"),
+                                ),
+                                TextField(
+                                  readOnly: true,
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.left,
+                                  keyboardType: TextInputType.text,
+                                  controller: null,
+                                  decoration: InputDecoration(
+                                    hintText: "Please Select",
+                                    hintStyle: GoogleFonts.openSans(
+                                        textStyle: TextStyle(
+                                          fontSize: 10,
                                           color: Colors.black,
-                                          onPressed: () {},
-                                        ),
-                                        filled: true,
-                                        fillColor: Colors.grey[200],
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                                          borderSide: BorderSide(
-                                              width: 0,
-                                              color: Colors.deepOrange
-                                          ),
-                                        ),
-                                      ),
-                                      onTap: (){
-                                        _SizeModalBottomSheet(context);
-                                      },
+                                        )
                                     ),
-                                  ],
-                                )
-                            ),
-                          )
-                        ],
-                      ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    contentPadding: EdgeInsets.all(10),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.keyboard_arrow_up,size: 25,),
+                                      iconSize: 14,
+                                      color: Colors.black,
+                                      onPressed: () {},
+                                    ),
+                                    filled: true,
+                                    fillColor: Colors.grey[200],
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                                      borderSide: BorderSide(
+                                          width: 0,
+                                          color: Colors.deepOrange
+                                      ),
+                                    ),
+                                  ),
+                                  onTap: (){
+                                    _SizeModalBottomSheet(context);
+                                  },
+                                ),
+                              ],
+                            )
+                        )
+                      ],
                     ),
                   ),
-                  SizedBox(height: 0.2,child: Padding(
-                    padding: EdgeInsets.only(left: 10,right: 10),
-                    child: Container(color: Colors.grey,),
-                  ),),
-                  Padding(
-                    padding: EdgeInsets.only(top: 8,left: 20),
-                    child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text("Quanity")
-                    ),
+                  SizedBox(height: 0.2,child: Container(color: Colors.grey,padding: EdgeInsets.all(15))),
+                  Container(
+                      padding: EdgeInsets.only(left: 15,right: 5),
+                      alignment: Alignment.centerLeft,
+                      child: Text("Quanity")
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 8, bottom: 20,left: 20),
-                    child: Container(
-                      width: 150,
-                      child: TextField(
-                        readOnly: true,
-                        style: TextStyle(color: Colors.white),
-                        textAlign: TextAlign.left,
-                        keyboardType: TextInputType.text,
-                        controller: null,
-                        decoration: InputDecoration(
-                          hintText: "Please Select",
-                          hintStyle: GoogleFonts.openSans(
-                              textStyle: TextStyle(
-                                fontSize: 10,
-                                color: Colors.black,
-                              )
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          contentPadding: EdgeInsets.all(10),
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.keyboard_arrow_up,size: 25,),
-                            iconSize: 14,
-                            color: Colors.black,
-                            onPressed: () {},
-                          ),
-                          filled: true,
-                          fillColor: Colors.grey[200],
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            borderSide: BorderSide(
-                                width: 0,
-                                color: Colors.deepOrange
-                            ),
+                  Container(
+                    padding: EdgeInsets.only(left: 15,right: 5),
+                    width: MediaQuery.of(context).size.width/2,
+                    child: TextField(
+                      readOnly: true,
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.left,
+                      keyboardType: TextInputType.text,
+                      controller: null,
+                      decoration: InputDecoration(
+                        hintText: "Please Select",
+                        hintStyle: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                              fontSize: 10,
+                              color: Colors.black,
+                            )
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        contentPadding: EdgeInsets.all(10),
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.keyboard_arrow_up,size: 25,),
+                          iconSize: 14,
+                          color: Colors.black,
+                          onPressed: () {},
+                        ),
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderSide: BorderSide(
+                              width: 0,
+                              color: Colors.deepOrange
                           ),
                         ),
-                        onTap: (){
-                        },
                       ),
+                      onTap: (){
+                      },
                     ),
                   ),
                   SizedBox(height: 0.1,child: Padding(
-                    padding: EdgeInsets.only(left: 10,right: 10),
+                    padding: EdgeInsets.all(10),
                     child: Container(color: Colors.grey,),
                   ),),
                 ],
@@ -416,20 +398,17 @@ class _JustForYouState extends State<JustForYou> {
 //                        Navigator.pop(context,true);
                         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new LoginScreen()));
                       }else{
-                        username = sharedPreferences.getString("username");
-                        password = sharedPreferences.getString("password");
-                        print("TOKEN : "+ username+password);
                         homeblocBloc.add(HomeBlocAddEvent(
                             AddCartModel(
                                 name:tasks.name,
                                 price: 245,
                                 image: tasks.image
                             )));
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder:(context) => CheckOutScreen()));
-//                        Navigator.of(context).push(new MaterialPageRoute(
-//                          builder: (BuildContext context)=>new CheckOutScreen(),
-//                          settings: RouteSettings(arguments: tasks),
-//                        ));
+                        Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                          builder: (BuildContext context)=>new CheckOutScreen(),
+                          settings: RouteSettings(arguments: CardModel(price: tasks.price.toString(), color: "blue", size: "10m", qty: 1)),
+                        ),
+                        );
                       }
                     },
                   )

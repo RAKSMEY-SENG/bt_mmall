@@ -31,6 +31,7 @@ class _ContentScreenState extends State<ContentScreen> {
     super.initState();
     _progressDialog.showProgressDialog(context,dismissAfter: Duration(milliseconds: 2000),textToBeDisplayed:'Loading...',onDismiss:(){
     });
+    _progressDialog.isDismissed = false;
   }
   @override
   Widget build(BuildContext context) {
