@@ -1,4 +1,5 @@
 import 'package:btmmall/models/category_model.dart';
+import 'package:btmmall/models/top_category.dart';
 import 'package:btmmall/services/api_service.dart';
 import 'package:btmmall/widgets/category_detail.dart';
 import 'package:flutter/material.dart';
@@ -44,9 +45,9 @@ class _PopularCategoryState extends State<PopularCategory> {
     );
   }
   FutureBuilder _listFutureTasks(BuildContext context) {
-    return FutureBuilder<List<CategoryModel>>(
-      future: Provider.of<ApiService>(context, listen: false).getCategory(),
-      builder: (BuildContext context, AsyncSnapshot<List<CategoryModel>> snapshot) {
+    return FutureBuilder<List<TopCategory>>(
+      future: Provider.of<ApiService>(context, listen: false).getTopCategory(),
+      builder: (BuildContext context, AsyncSnapshot<List<TopCategory>> snapshot) {
         if(snapshot.connectionState == ConnectionState.done) {
           if(snapshot.hasError) {
             return Container(
@@ -69,15 +70,15 @@ class _PopularCategoryState extends State<PopularCategory> {
     );
   }
 
-  GridView _listTasks({BuildContext context, List<CategoryModel> tasks}) {
+  GridView _listTasks({BuildContext context, List<TopCategory> tasks}) {
     return  GridView.builder(
       physics: NeverScrollableScrollPhysics(),
-      itemCount: 12,
+      itemCount: tasks.length,
       padding: EdgeInsets.all(8.0),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
         crossAxisSpacing: 1.0,
-        mainAxisSpacing: 5.0,
+        mainAxisSpacing: 1.0,
       ),
       itemBuilder: (BuildContext context, int index) {
         return new Container(
@@ -93,7 +94,7 @@ class _PopularCategoryState extends State<PopularCategory> {
                     ),
                     child: new Column(
                       children: <Widget>[
-                        new Image.network(tasks[index].image, width: 50, height: 60,),
+                        new Image.network(tasks[index].img, width: 50, height: 60,),
                         new Text(
                           tasks[index].name,
                           style: TextStyle(

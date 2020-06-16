@@ -1,7 +1,7 @@
 import 'package:btmmall/components/loginButton.dart';
 import 'package:btmmall/homebloc/bloc.dart';
 import 'package:btmmall/homebloc/homebloc_bloc.dart';
-import 'package:btmmall/models/add_card_model.dart';
+import 'package:btmmall/models/add_cart_model.dart';
 import 'package:btmmall/models/data.dart';
 import 'package:btmmall/models/addproduct_model.dart';
 import 'package:btmmall/models/product_model.dart';
@@ -395,16 +395,15 @@ class _JustForYouState extends State<JustForYou> {
                     onTap: () async{
                       sharedPreferences = await SharedPreferences.getInstance();
                       if(sharedPreferences.getString("token") == null) {
-//                        Navigator.pop(context,true);
                         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => new LoginScreen()));
                       }else{
                         homeblocBloc.add(HomeBlocAddEvent(
                             AddCartModel(
                                 name:tasks.name,
-                                price: 245,
+                                price: tasks.price,
                                 image: tasks.image
                             )));
-                        Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                          Navigator.of(context).pushReplacement(new MaterialPageRoute(
                           builder: (BuildContext context)=>new CheckOutScreen(),
                           settings: RouteSettings(arguments: CardModel(price: tasks.price.toString(), color: "blue", size: "10m", qty: 1)),
                         ),

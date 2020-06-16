@@ -3,7 +3,7 @@ import 'package:btmmall/checkout/checkout_bloc.dart';
 import 'package:btmmall/checkout/checkout_event.dart';
 import 'package:btmmall/checkout/checkout_state.dart';
 import 'package:btmmall/components/loginButton.dart';
-import 'package:btmmall/models/add_card_model.dart';
+import 'package:btmmall/models/add_cart_model.dart';
 import 'package:btmmall/models/product_model.dart';
 import 'package:btmmall/screens/content_screen.dart';
 import 'package:btmmall/widgets/confirm_order_screen.dart';

@@ -4,8 +4,10 @@ import 'package:btmmall/components/buttonLoginAnimation.dart';
 import 'package:btmmall/components/customTextfield.dart';
 import 'package:btmmall/screens/account_screen.dart';
 import 'package:btmmall/services/api_service.dart';
+import 'package:btmmall/widgets/register_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -58,20 +60,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Navigator.pop(context);
                             },
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: <Widget>[
-                              Icon(Icons.slow_motion_video, color: Colors.white,size: 32),
-                              Text("32°", style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18
-                              )),
-                              Text("Sat, 3 Aug", style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12
-                              ))
-                            ],
-                          )
+                          RaisedButton(
+                            color: Colors.transparent,
+                            child: new Text('Register',style: TextStyle(color: Colors.white),),
+                            onPressed: (){
+                              Navigator.push(context, PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: RegisterScreen()
+                              ));
+                            },
+                          ),
                         ],
                       ),
                     ),

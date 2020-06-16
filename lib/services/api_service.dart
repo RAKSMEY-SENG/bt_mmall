@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:btmmall/models/add_cart_model.dart';
 import 'package:btmmall/models/category_model.dart';
 import 'package:btmmall/models/data.dart';
 import 'package:btmmall/models/product_model.dart';
+import 'package:btmmall/models/top_category.dart';
 import 'package:btmmall/models/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -29,10 +31,16 @@ abstract class ApiService {
   @GET("web-service/function.php")
   Future<List<CategoryModel>> getCategory();
 
+  @GET("web-service/function.php")
+  Future<List<TopCategory>> getTopCategory();
+
   @POST("web-service/function.php")
   Future<UserModel> fb_Register(@Part() String fid, @Part() String email, @Path() String firstname, @Path() String lastname, @Path() String name);
 
   @POST("web-service/function.php")
   Future<UserModel> Register(@Part() String username, @Part() String password);
+
+  @POST("web-service/add-pro-to-cart.php")
+  Future<AddCardModel> AddCart(@Part() String pro_id, @Part() String user_id, @Part() String username, @Part() String quantity);
 
 }

@@ -83,6 +83,30 @@ class _ApiService implements ApiService {
   }
 
   @override
+  Future<List<TopCategory>> getTopCategory() async {
+    FormData formData = FormData.fromMap({
+      "action": "top_category",
+    });
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final Response _result = await _dio.request('web-service/function.php',
+      queryParameters: queryParameters,
+      options: RequestOptions(
+          method: 'POST',
+          headers: <String, dynamic>{},
+          extra: _extra,
+          baseUrl: baseUrl),
+      data: formData,);
+    List object = jsonDecode(_result.data);
+    print(object);
+    var value = object
+        .map((dynamic i) => TopCategory.fromJson(i as Map<String, dynamic>))
+        .toList();
+    print(value);
+    return Future.value(value);
+  }
+
+  @override
   Future<UserModel> fb_Register(String fid, String email, String firstname, String lastname, String name) async{
     FormData formData = FormData.fromMap({
       "action": "sociallogin",
@@ -143,6 +167,44 @@ class _ApiService implements ApiService {
       print("Response : " + _result.data);
       var object = jsonDecode(_result.data);
       UserModel data = UserModel.fromJson(object);
+      print(data);
+      return Future.value(data);
+    } on DioError catch (e){
+      if (e.response != null) {
+        print(e.response.data);
+        print(e.response.headers);
+        print(e.response.request);
+      } else {
+        print(e.request.headers);
+        print(e.message);
+      }
+    }
+  }
+
+  @override
+  Future<AddCardModel> AddCart(String pro_id, String user_id, String username, String qty) async{
+    FormData formData = FormData.fromMap({
+      "action": "sociallogin",
+      "product_id": pro_id,
+      "user_id": user_id,
+      "username": username,
+      "quantity": qty,
+    });
+    try {
+      const _extra = <String, dynamic>{};
+      final queryParameters = <String, dynamic>{};
+      final Response _result = await _dio.post('web-service/add-pro-to-cart.php',
+          queryParameters: queryParameters,
+          options: RequestOptions(
+              method: 'POST',
+              contentType: 'multipart/form-data',
+              headers: <String, dynamic>{},
+              extra: _extra,
+              baseUrl: baseUrl),
+          data: formData);
+      print("Response : " + _result.data);
+      var object = jsonDecode(_result.data);
+      AddCardModel data = AddCardModel.fromJson(object);
       print(data);
       return Future.value(data);
     } on DioError catch (e){
